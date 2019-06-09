@@ -1,0 +1,46 @@
+<div class="outer-container">
+    <mat-accordion>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Log in
+                </mat-panel-title>
+
+            </mat-expansion-panel-header>
+            <div class="example-container">
+                <mat-form-field>
+                    <input matInput placeholder="email">
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="password">
+                </mat-form-field>
+            </div>
+            <button class="btn btn-default" mat-button>Log In</button>
+        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Create an account
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="example-container">
+                <mat-form-field>
+                    <input matInput placeholder="Enter your email" [formControl]="email" required>
+                    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" required>
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput placeholder="Repeat your password" [type]="hide ? 'password' : 'text'" required>
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </mat-form-field>
+            </div>
+            <button class="btn btn-default" mat-button>Save</button>
+
+        </mat-expansion-panel>
+    </mat-accordion>
+</div>

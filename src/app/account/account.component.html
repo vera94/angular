@@ -1,0 +1,33 @@
+<div>
+    
+    <div class="account-container">
+        <p>Greeting : {{greeting}}</p>
+        <mat-form-field>
+            <input matInput placeholder="Enter your email" [formControl]="email" required>
+            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Repeat your password" [type]="hide ? 'password' : 'text'">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="First name">
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Last name">
+        </mat-form-field>
+        <!-- mat-form-field>
+            <mat-label>Country</mat-label>
+            <mat-select>
+                <mat-option *ngFor="let country of countries" [value]="countries">
+                    {{selectedCountry}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field -->
+    </div>
+    <button class="btn btn-default" mat-button>Save</button>
+</div>
