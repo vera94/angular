@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -39,8 +40,9 @@ import {MatFormFieldModule} from '@angular/material/form-field';
     MatIconModule,
     MatSelectModule,
      MatGridListModule,
+     
   ],
-  providers: [],
+  providers: [CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
