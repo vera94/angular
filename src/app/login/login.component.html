@@ -25,21 +25,34 @@
                 </mat-panel-title>
             </mat-expansion-panel-header>
             <div class="example-container">
+            <form #loginForm=ngForm (ngSubmit)="submit()" [formGroup]="registerForm">
+            	<div>
                 <mat-form-field>
-                    <input matInput placeholder="Enter your email" [formControl]="email" required>
-                    <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+                    <input matInput placeholder="Enter your email1" formControlName="email" required>
+                    <mat-error *ngIf="registerForm.invalid">{{getErrorMessage()}}</mat-error>
                 </mat-form-field>
-
+				</div>
+				<div>
                 <mat-form-field>
-                    <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" required>
+                    <input matInput placeholder="Enter your password" formControlName="password" [type]="hide ? 'password' : 'text'" required>
                     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <mat-error *ngIf="registerForm.invalid">{{getErrorPwdMessage()}}</mat-error>
                 </mat-form-field>
+                </div>
+                <div>
                 <mat-form-field>
-                    <input matInput placeholder="Repeat your password" [type]="hide ? 'password' : 'text'" required>
+                    <input matInput placeholder="Repeat your password" formControlName="confirmPassword" [type]="hide ? 'password' : 'text'" required>
                     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                    <mat-error *ngIf="registerForm.invalid">{{getErrorConfirmPwdMessage()}}</mat-error>
                 </mat-form-field>
+                </div>
+                <div>
+                <mat-card-actions>
+            		<button mat-raised-button type="submit" color="primary">SAVE</button>
+    			</mat-card-actions>	
+    			</div>
+                </form>
             </div>
-            <button class="btn btn-default" mat-button>Save</button>
 
         </mat-expansion-panel>
     </mat-accordion>

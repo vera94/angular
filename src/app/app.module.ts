@@ -6,15 +6,15 @@ import { AppComponent } from './app.component';
 import { AccountComponent } from './account/account.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { MatListModule, MatSidenavModule, MatToolbarModule, MatExpansionModule,
-     MatInputModule, MatIconModule, MatSelectModule, MatGridListModule} from '@angular/material';
-
+import { MatListModule, MatSidenavModule, MatToolbarModule, MatExpansionModule, MatTableModule,
+     MatInputModule, MatIconModule, MatSelectModule, MatGridListModule, MatCardModule, MatDialogModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { CookieService } from 'ngx-cookie-service';
-
+import { MapComponent } from './map/map.component';
+import { AdminComponent, AddEntityDialog } from './admin/admin.component';
 
 
 @NgModule({
@@ -22,7 +22,10 @@ import { CookieService } from 'ngx-cookie-service';
     AppComponent,
     AccountComponent,
     DashboardComponent,
-    LoginComponent
+    LoginComponent,
+    MapComponent,
+    AdminComponent,
+    AddEntityDialog
   ],
   imports: [
     BrowserModule,
@@ -40,9 +43,13 @@ import { CookieService } from 'ngx-cookie-service';
     MatIconModule,
     MatSelectModule,
      MatGridListModule,
+     MatCardModule,
+     MatTableModule,
+    MatDialogModule
      
   ],
   providers: [CookieService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [AdminComponent, AddEntityDialog],
 })
 export class AppModule { }

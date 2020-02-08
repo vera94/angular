@@ -28,7 +28,6 @@ export class AccountComponent implements OnInit {
     constructor(private userService : UserService) { }
 
     ngOnInit() {
-       this.greeting = this.userService.getGreetingMessage();
     }
 
 }
