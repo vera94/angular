@@ -1,7 +1,8 @@
-import { Component, OnInit , Inject} from '@angular/core';
+import { Component, OnInit , Inject, ChangeDetectorRef } from '@angular/core';
+import { LandmarkServiceService, Landmark } from '../landmark-service.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -15,23 +16,24 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
   ]
 })
 export class AdminComponent implements OnInit {
-	dataSource = ELEMENT_DATA;
-  columnsToDisplay = ['name', 'weight', 'symbol', 'position'];
-  expandedElement: PeriodicElement | null;
-  
-  constructor(public dialog: MatDialog) {}
+	dataSource = new MatTableDataSource<Landmark>();;
+  columnsToDisplay = ['id', 'name', 'description', 'lat', 'lng', 'Photo Url'];
+  expandedLandmark: Landmark | null;
+  constructor(public dialog: MatDialog, private landmarkService : LandmarkServiceService, public changeDetectorRef :ChangeDetectorRef ) {}
 
   ngOnInit() {
+ 	 this.landmarkService.getAllLandmarks(this.dataSource, this.changeDetectorRef);
   }
+  
  openDialog(): void {
     const dialogRef = this.dialog.open(AddEntityDialog, {
       width: '250px',
-      data: {name:"rosko", animal: "mitko"}
+      data: {}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      
+      this.landmarkService.addLandmark(result);
     });
   }
 }
@@ -44,31 +46,11 @@ export class AddEntityDialog {
 
   constructor(
     public dialogRef: MatDialogRef<AddEntityDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData) {}
+    @Inject(MAT_DIALOG_DATA) public data: Landmark) {}
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
 }
-export interface DialogData {
-  animal: string;
-  name: string;
-}
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  description: string;
-}
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {
-    position: 1,
-    name: 'Hydrogen',
-    weight: 1.0079,
-    symbol: 'H',
-    description: `Hydrogen is a chemical element with symbol H and atomic number 1. With a standard
-        atomic weight of 1.008, hydrogen is the lightest element on the periodic table.`
-  }];
