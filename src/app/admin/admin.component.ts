@@ -17,8 +17,9 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class AdminComponent implements OnInit {
 	dataSource = new MatTableDataSource<Landmark>();;
-  columnsToDisplay = ['id', 'name', 'description', 'lat', 'lng', 'Photo Url'];
+  columnsToDisplay = ['id', 'name', 'lat', 'lng', 'Photo Url'];
   expandedLandmark: Landmark | null;
+  photo;
   constructor(public dialog: MatDialog, private landmarkService : LandmarkServiceService, public changeDetectorRef :ChangeDetectorRef ) {}
 
   ngOnInit() {
@@ -28,13 +29,17 @@ export class AdminComponent implements OnInit {
  openDialog(): void {
     const dialogRef = this.dialog.open(AddEntityDialog, {
       width: '250px',
-      data: {}
+      data: { landmark : {}, photo : {}}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       this.landmarkService.addLandmark(result);
     });
+  }
+  
+  deleteLandmark(id: any) : void {
+  	this.landmarkService.deleteLandmark(id);
   }
 }
 
@@ -51,6 +56,9 @@ export class AddEntityDialog {
   onNoClick(): void {
     this.dialogRef.close();
   }
-
+  
+  photoInputChange(fileInputEvent: any) : void {
+  	this.data.photo = fileInputEvent.target.files[0];
+  }
 }
 

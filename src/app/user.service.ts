@@ -6,7 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class UserService {
-	appUrl = 'http://localhost:8080/travelAssistant';
+	appUrl = 'http://localhost:8585/travelAssistant';
     loginUrl = this.appUrl + '/login';
     signUpUrl = this.appUrl + '/user/signup';
     editUserUrl = this.appUrl + '/user/update';

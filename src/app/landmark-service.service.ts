@@ -5,9 +5,10 @@ import { HttpClient , HttpHeaders, HttpResponse } from '@angular/common/http';
   providedIn: 'root'
 })
 export class LandmarkServiceService {
-	appUrl = 'http://localhost:8080/travelAssistant';
+	appUrl = 'http://localhost:8585/travelAssistant';
     getAllUrl = this.appUrl + '/landmark/all';
     addUrl = this.appUrl + '/landmark';
+    deleteUrl = this.appUrl + '/landmark/delete/';
 	constructor(private http: HttpClient) { }
     
     getAllLandmarks(data, changeDetectorRef : ChangeDetectorRef) {
@@ -21,11 +22,21 @@ export class LandmarkServiceService {
 	}
   
   	 addLandmark(data) {
-     this.http.post(this.addUrl, data, {
+  		var fd = new FormData();
+  		var blob = new Blob([JSON.stringify(data.landmark, null, 2)], {type : 'application/json'});
+  		fd.append("landmark", blob);
+  		fd.append("photo", data.photo);
+     this.http.post(this.addUrl, fd, {
+     headers: {'Content-Type': false}
+    }).subscribe( );
+	}
+	
+	deleteLandmark(id) {
+     this.http.delete(this.deleteUrl + id, {
       headers: new HttpHeaders({'Content-Type': 'application/json'}),
       observe: 'response'
     }).subscribe((response : HttpResponse<any>) => {
-             
+             console.log(response);
             } );
 	}
 }
@@ -36,5 +47,5 @@ export interface Landmark {
   description: string;
   lat: number;
   lng: number;
-  photoUrl: string;
+  photo: any;
 }

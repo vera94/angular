@@ -45,3 +45,8 @@ tr.example-element-row:not(.example-expanded-row):active {
 .example-element-description-attribution {
   opacity: 0.5;
 }
+
+.btn {
+	width: 10%;
+	height: 20%;
+}

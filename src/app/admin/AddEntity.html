@@ -2,20 +2,21 @@
   <p>Add new landmark</p>
   <mat-form-field>
     <mat-label>Name</mat-label>
-    <input matInput [(ngModel)]="data.name">
+    <input matInput [(ngModel)]="data.landmark.name">
   </mat-form-field>
   <mat-form-field>
     <mat-label>Description</mat-label>
-    <input matInput [(ngModel)]="data.description">
+    <input matInput [(ngModel)]="data.landmark.description">
   </mat-form-field>
    <mat-form-field>
     <mat-label>Lat</mat-label>
-    <input matInput [(ngModel)]="data.lat">
+    <input matInput [(ngModel)]="data.landmark.lat">
   </mat-form-field>
    <mat-form-field>
     <mat-label>Lng</mat-label>
-    <input matInput [(ngModel)]="data.lng">
+    <input matInput [(ngModel)]="data.landmark.lng">
   </mat-form-field>
+  <input class="ng-hide" id="input-image-id" multiple type="file" (change)="photoInputChange($event)" />
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No Thanks</button>
