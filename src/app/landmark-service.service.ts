@@ -21,14 +21,16 @@ export class LandmarkServiceService {
             } );
 	}
   
-  	 addLandmark(data) {
+  	 addLandmark(data, isEdit) {
   		var fd = new FormData();
   		var blob = new Blob([JSON.stringify(data.landmark, null, 2)], {type : 'application/json'});
   		fd.append("landmark", blob);
   		fd.append("photo", data.photo);
-     this.http.post(this.addUrl, fd, {
-     headers: {'Content-Type': false}
-    }).subscribe( );
+  		if(isEdit){
+  			this.http.put(this.addUrl, fd, {}).subscribe( );
+  		} else {  		
+	    	this.http.post(this.addUrl, fd, {}).subscribe( );
+	    }
 	}
 	
 	deleteLandmark(id) {

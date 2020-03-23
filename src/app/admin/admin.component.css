@@ -2,6 +2,9 @@ table {
   width: 100%;
 }
 
+td, th, tr {
+	
+}
 tr.example-detail-row {
   height: 0;
 }
@@ -14,6 +17,10 @@ tr.example-element-row:not(.example-expanded-row):active {
   background: #efefef;
 }
 
+.upperMenu {
+	text-align: center;
+}
+
 .example-element-row td {
   border-bottom-width: 0;
 }
@@ -24,7 +31,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .example-element-diagram {
-  min-width: 80px;
+  max-width: 104px;
   border: 2px solid black;
   padding: 8px;
   font-weight: lighter;
@@ -32,14 +39,13 @@ tr.example-element-row:not(.example-expanded-row):active {
   height: 104px;
 }
 
-.example-element-symbol {
-  font-weight: bold;
-  font-size: 40px;
-  line-height: normal;
+.photo {
+  max-height: 104px;
+  max-width: 104px;
 }
 
-.example-element-description {
-  padding: 16px;
+.expanded-clmn {
+  padding: 10px;
 }
 
 .example-element-description-attribution {
@@ -47,6 +53,9 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .btn {
+	margin: 16px;
 	width: 10%;
 	height: 20%;
+ 	position:relative;
+ 	left: 40px;
 }

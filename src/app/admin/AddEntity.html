@@ -1,5 +1,5 @@
 <div mat-dialog-content>
-  <p>Add new landmark</p>
+  <p>{{data.dialogText}}</p>
   <mat-form-field>
     <mat-label>Name</mat-label>
     <input matInput [(ngModel)]="data.landmark.name">
@@ -19,6 +19,6 @@
   <input class="ng-hide" id="input-image-id" multiple type="file" (change)="photoInputChange($event)" />
 </div>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
 </div>
