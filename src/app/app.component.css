@@ -12,9 +12,7 @@
     }
 
     .greeting {
-        align-items: center;
-        align-content: center;
-        text-align: center;
+        margin: 10px;
     }
 
     router-outlet.router-flex + * {
@@ -25,6 +23,16 @@
 
     .login-button {
         position: absolute;
+        right: 10px;
+        top: 5px;
+         margin: 10px;
+    }
+    
+    .sidenavContent {
+        position: absolute;
+        top: 10px;
+        bottom: 10px;
+        left: 10px;
         right: 10px;
         top: 5px;
     }

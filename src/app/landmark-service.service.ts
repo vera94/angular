@@ -12,13 +12,19 @@ export class LandmarkServiceService {
 	constructor(private http: HttpClient) { }
     
     getAllLandmarks(data, changeDetectorRef : ChangeDetectorRef) {
-     this.http.get<Landmark[]>(this.getAllUrl, {
-      headers: new HttpHeaders({'Content-Type': 'application/json'}),
-      observe: 'response'
-    }).subscribe((response : HttpResponse<Landmark[]>) => {
-             data.data = response.body;
-             changeDetectorRef.detectChanges();
-            } );
+    	var that = this;
+  	 	return new Promise(function(resolve, reject) {
+		     that.http.get<Landmark[]>(that.getAllUrl, {
+		      headers: new HttpHeaders({'Content-Type': 'application/json'}),
+		      observe: 'response'
+		     }).subscribe((response : HttpResponse<Landmark[]>) => {
+		             data.data = response.body;
+		             resolve();
+		             if(!!changeDetectorRef) {
+		             	changeDetectorRef.detectChanges();
+		             }
+		            } );
+        });
 	}
   
   

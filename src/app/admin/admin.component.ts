@@ -26,6 +26,11 @@ export class AdminComponent implements OnInit {
  	 this.landmarkService.getAllLandmarks(this.dataSource, this.changeDetectorRef);
   }
   
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
  openDialog(landmarkData): void {
  	var isEdit;
  	var photo;

@@ -2,6 +2,10 @@
 <button class="btn" mat-raised-button (click)="addLandmark()">Add new landmark</button>
 </div>
 <div>
+<mat-form-field>
+  <mat-label>Filter</mat-label>
+  <input matInput (keyup)="applyFilter($event)" placeholder="Enter filter value">
+</mat-form-field>
 <table mat-table
        [dataSource]="dataSource" multiTemplateDataRows
        class="mat-elevation-z8">
