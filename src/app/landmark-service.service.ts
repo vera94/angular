@@ -21,25 +21,49 @@ export class LandmarkServiceService {
             } );
 	}
   
+  
   	 addLandmark(data, isEdit) {
-  		var fd = new FormData();
-  		var blob = new Blob([JSON.stringify(data.landmark, null, 2)], {type : 'application/json'});
-  		fd.append("landmark", blob);
-  		fd.append("photo", data.photo);
-  		if(isEdit){
-  			this.http.put(this.addUrl, fd, {}).subscribe( );
-  		} else {  		
-	    	this.http.post(this.addUrl, fd, {}).subscribe( );
-	    }
+  	 	var that = this;
+  	 	return new Promise(function(resolve, reject) {
+	  		var fd = new FormData();
+	  		var blob = new Blob([JSON.stringify(data.landmark, null, 2)], {type : 'application/json'});
+	  		fd.append("landmark", blob);
+	  		fd.append("photo", data.photo);
+	  		if(isEdit){
+	  			that.http.put(that.addUrl, fd, {}).subscribe((data: any) =>{
+				    if(data){
+				      resolve();
+				    }
+				    else{
+				      reject()
+				    } });
+	  		} else {  		
+		    	that.http.post(that.addUrl, fd, {}).subscribe((result: any) =>{
+				    if(result){
+				      resolve();
+				    }
+				    else{
+				      reject()
+				    } });
+		    }
+	    });
 	}
 	
 	deleteLandmark(id) {
-     this.http.delete(this.deleteUrl + id, {
-      headers: new HttpHeaders({'Content-Type': 'application/json'}),
-      observe: 'response'
-    }).subscribe((response : HttpResponse<any>) => {
-             console.log(response);
-            } );
+		var that = this;
+  	 	return new Promise(function(resolve, reject) {
+		     that.http.delete(that.deleteUrl + id, {
+		      headers: new HttpHeaders({'Content-Type': 'application/json'}),
+		      observe: 'response'
+		    }).subscribe((data : HttpResponse<any>) => {
+	            	if(data){
+				      resolve();
+				    }
+				    else{
+				      reject()
+			        }
+	            } );
+        });
 	}
 }
 

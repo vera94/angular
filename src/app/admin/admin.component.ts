@@ -45,25 +45,30 @@ export class AdminComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       if (!!result) {
-	      this.landmarkService.addLandmark(result, isEdit);
-	      this.landmarkService.getAllLandmarks(this.dataSource, this.changeDetectorRef);
+            var that = this;
+			var promise = this.landmarkService.addLandmark(result, isEdit);
+			promise.then(function() {
+			  that.landmarkService.getAllLandmarks(that.dataSource, that.changeDetectorRef);
+			});
       }
     });
   }
   
   deleteLandmark(id: any) : void {
-  	this.landmarkService.deleteLandmark(id);
-  	this.landmarkService.getAllLandmarks(this.dataSource, this.changeDetectorRef);
+  		var that = this;
+		var promise = this.landmarkService.deleteLandmark(id);
+		promise.then(function() {
+		  that.landmarkService.getAllLandmarks(that.dataSource, that.changeDetectorRef);
+		});
+  	
   }
   
   editLandmark(element : Landmark) : void {
   	this.openDialog(element);
-  	this.landmarkService.getAllLandmarks(this.dataSource, this.changeDetectorRef);
   }
   
   addLandmark() : void {
   	this.openDialog({});
-  	this.landmarkService.getAllLandmarks(this.dataSource, this.changeDetectorRef);
   }
 }
 
