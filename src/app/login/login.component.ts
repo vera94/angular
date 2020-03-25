@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup} from '@angular/forms';
-import { UserService } from '../user.service';
+import { UserService, User } from '../user.service';
 
 @Component({
     selector: 'app-login',
@@ -8,6 +8,7 @@ import { UserService } from '../user.service';
     styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+	user  = { email: "", password:""};
 	registerForm : FormGroup;
     panelOpenState = false;
     hide = true;
@@ -18,7 +19,7 @@ export class LoginComponent implements OnInit {
     confirmPassword;
     
 
-    constructor(private formBuilder: FormBuilder) { }
+    constructor(private formBuilder: FormBuilder, private userService : UserService) { }
     
     ngOnInit() {
 	    this.registerForm = this.formBuilder.group({
@@ -52,11 +53,19 @@ export class LoginComponent implements OnInit {
     }
 
 	submit() {
-	  let data = {
-	  	email : this.email.value,
-	  	password : this.password.value
-	  	
-	  };
+		var that = this;
+		  var newUser = this.registerForm.value;
+		  var promise = this.userService.signUp(newUser).then(function(){
+		  		that.registerForm.reset();
+		  });
 	}
+	
+	logIn(){
+		var that = this;
+		 var promise = this.userService.logIn(this.user.email, this.user.password).then(function(){
+		  		that.registerForm.reset();
+		  });
+	}
+	
 	
 }

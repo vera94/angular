@@ -9,14 +9,14 @@
             </mat-expansion-panel-header>
             <div class="example-container">
                 <mat-form-field>
-                    <input matInput placeholder="email">
+                    <input matInput placeholder="email" [(ngModel)]="user.email">
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput placeholder="password">
+                    <input matInput placeholder="password" [(ngModel)]="user.password">
                 </mat-form-field>
             </div>
-            <button class="btn btn-default" mat-button>Log In</button>
+            <button class="btn btn-default" mat-button (click)="logIn()">Log In</button>
         </mat-expansion-panel>
         <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
             <mat-expansion-panel-header>

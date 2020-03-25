@@ -32,7 +32,6 @@ export class AccountComponent implements OnInit {
 		 var promise = this.landmarkService.getLandmarkTypes(this.typesList);
 			promise.then(function(data : any[]) {
 				that.typesList = data;
-				alert("adsf");
 			});
     }
 
