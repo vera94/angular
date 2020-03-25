@@ -17,6 +17,9 @@ tr.example-element-row:not(.example-expanded-row):active {
   background: #efefef;
 }
 
+th.mat-sort-header-sorted {
+  color: black;
+}
 
 .upperMenu {
 	text-align: center;

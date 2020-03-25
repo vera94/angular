@@ -15,6 +15,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { CookieService } from 'ngx-cookie-service';
 import { MapComponent } from './map/map.component';
 import { AdminComponent, AddEntityDialog } from './admin/admin.component';
+import {MatSortModule} from '@angular/material/sort';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { AdminComponent, AddEntityDialog } from './admin/admin.component';
     ReactiveFormsModule,
     MatIconModule,
     MatSelectModule,
+    MatSortModule,
      MatGridListModule,
      MatCardModule,
      MatTableModule,

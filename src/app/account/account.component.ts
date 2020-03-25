@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserService } from '../user.service';
-
+import { LandmarkServiceService, Landmark, LandmarkType } from '../landmark-service.service';
 
 
 @Component({
@@ -10,7 +10,7 @@ import { UserService } from '../user.service';
     styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
-
+	typeControl = new FormControl('', Validators.required);
     panelOpenState = false;
     hide = true;
     selectedCountry;
@@ -25,9 +25,15 @@ export class AccountComponent implements OnInit {
                 '';
     }
 
-    constructor(private userService : UserService) { }
+    constructor(private userService : UserService, private landmarkService : LandmarkServiceService) { }
 
     ngOnInit() {
+	    var that = this;
+		 var promise = this.landmarkService.getLandmarkTypes(this.typesList);
+			promise.then(function(data : any[]) {
+				that.typesList = data;
+				alert("adsf");
+			});
     }
 
 }

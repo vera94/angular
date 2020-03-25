@@ -23,7 +23,7 @@
         <mat-form-field>
 		  <mat-label>Toppings</mat-label>
 		  <mat-select [formControl]="typeControl" multiple>
-		    <mat-option *ngFor="let type of typesList" [value]="types">{{category}}</mat-option>
+		    <mat-option *ngFor="let type of typesList" [value]="type.key">{{type.value}}</mat-option>
 		  </mat-select>
 		</mat-form-field>
     </div>

@@ -24,7 +24,7 @@ export class AdminComponent implements OnInit {
 	dataSource = new MatTableDataSource<Landmark>();
   columnsToDisplay = ['id', 'name','type', 'lat', 'lng'];
   expandedLandmark: Landmark | null;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
   
   constructor(public dialog: MatDialog, private landmarkService : LandmarkServiceService, public changeDetectorRef :ChangeDetectorRef ) {}
  	
