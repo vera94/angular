@@ -17,8 +17,8 @@ export class AccountComponent implements OnInit {
     greeting ;
 
     email = new FormControl('', [Validators.required, Validators.email]);
-    countries = ['Bulgaria', 'United Kingdom', 'Italy'];
-
+	types = new FormControl();
+  	typesList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
     getErrorMessage() {
         return this.email.hasError('required') ? 'You must enter a value' :
             this.email.hasError('email') ? 'Not a valid email' :

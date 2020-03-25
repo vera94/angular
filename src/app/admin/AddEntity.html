@@ -8,6 +8,15 @@
     <mat-label>Description</mat-label>
     <input matInput [(ngModel)]="data.landmark.description">
   </mat-form-field>
+	<mat-form-field>
+	  <mat-label>Type</mat-label>
+	  <mat-select [formControl]="typeControl" required [(ngModel)]="data.landmark.type">
+	    <mat-option *ngFor="let type of typesList" [value]="type.key">
+	      {{type.value}}
+	    </mat-option>
+	  </mat-select>
+	  <mat-error *ngIf="typeControl.hasError('required')">Please choose a type</mat-error>
+	</mat-form-field>
    <mat-form-field>
     <mat-label>Lat</mat-label>
     <input matInput [(ngModel)]="data.landmark.lat">

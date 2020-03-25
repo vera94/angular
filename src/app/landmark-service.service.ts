@@ -9,6 +9,7 @@ export class LandmarkServiceService {
     getAllUrl = this.appUrl + '/landmark/all';
     addUrl = this.appUrl + '/landmark';
     deleteUrl = this.appUrl + '/landmark/delete/';
+    getLandmarkTypesUrl = this.appUrl + '/landmark/types';
 	constructor(private http: HttpClient) { }
     
     getAllLandmarks(data, changeDetectorRef : ChangeDetectorRef) {
@@ -27,6 +28,18 @@ export class LandmarkServiceService {
         });
 	}
   
+	  getLandmarkTypes(data) {
+	    	var that = this;
+	  	 	return new Promise(function(resolve, reject) {
+			     that.http.get<LandmarkType[]>(that.getLandmarkTypesUrl, {
+			      headers: new HttpHeaders({'Content-Type': 'application/json'}),
+			      observe: 'response'
+			     }).subscribe((response : HttpResponse<LandmarkType[]>) => {
+			             data = response.body;
+			             resolve(data);
+			            } );
+	        });
+		}
   
   	 addLandmark(data, isEdit) {
   	 	var that = this;
@@ -79,5 +92,14 @@ export interface Landmark {
   description: string;
   lat: number;
   lng: number;
+  type: string;
+  landmarkTypeName : string;
   photo: any;
 }
+
+export interface LandmarkType {
+  key: string,	
+  value: string;
+}
+
+

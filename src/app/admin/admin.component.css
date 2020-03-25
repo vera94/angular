@@ -17,6 +17,7 @@ tr.example-element-row:not(.example-expanded-row):active {
   background: #efefef;
 }
 
+
 .upperMenu {
 	text-align: center;
 }
@@ -46,6 +47,7 @@ tr.example-element-row:not(.example-expanded-row):active {
 
 .expanded-clmn {
   padding: 10px;
+  width: 60%;
 }
 
 .example-element-description-attribution {
@@ -58,4 +60,8 @@ tr.example-element-row:not(.example-expanded-row):active {
 	height: 20%;
  	position:relative;
  	left: 40px;
+}
+
+th.mat-sort-header-sorted {
+  color: black;
 }

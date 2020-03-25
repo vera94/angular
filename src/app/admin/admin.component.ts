@@ -1,8 +1,11 @@
-import { Component, OnInit , Inject, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
-import { LandmarkServiceService, Landmark } from '../landmark-service.service';
+import { Component, OnInit , Inject, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { LandmarkServiceService, Landmark, LandmarkType } from '../landmark-service.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
+
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
@@ -16,13 +19,19 @@ import { MatTableDataSource } from '@angular/material/table';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
 export class AdminComponent implements OnInit {
 	dataSource = new MatTableDataSource<Landmark>();
-  columnsToDisplay = ['id', 'name', 'lat', 'lng'];
+  columnsToDisplay = ['id', 'name','type', 'lat', 'lng'];
   expandedLandmark: Landmark | null;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  
   constructor(public dialog: MatDialog, private landmarkService : LandmarkServiceService, public changeDetectorRef :ChangeDetectorRef ) {}
+ 	
 
   ngOnInit() {
+  	var that= this;
+  	this.dataSource.sort = this.sort;
  	 this.landmarkService.getAllLandmarks(this.dataSource, this.changeDetectorRef);
   }
   
@@ -42,6 +51,7 @@ export class AdminComponent implements OnInit {
  	} else {
  		text = "Edit landmark";
  	}
+ 	 
     const dialogRef = this.dialog.open(AddEntityDialog, {
       width: '250px',
       data: { landmark : landmarkData, photo : {}, dialogText : text }
@@ -82,17 +92,25 @@ export class AdminComponent implements OnInit {
   templateUrl: './AddEntity.html',
 })
 export class AddEntityDialog {
-
+	 typesList = [];
+	typeControl = new FormControl('', Validators.required);
   constructor(
     public dialogRef: MatDialogRef<AddEntityDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: Landmark) {}
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-  
-  photoInputChange(fileInputEvent: any) : void {
-  	this.data.photo = fileInputEvent.target.files[0];
-  }
+    @Inject(MAT_DIALOG_DATA) public data: Landmark, private landmarkService : LandmarkServiceService,) {}
+	ngOnInit() {
+	var that = this;
+	 var promise = this.landmarkService.getLandmarkTypes(this.typesList);
+		promise.then(function(data : any[]) {
+			that.typesList = data;
+			alert("adsf");
+		});
+	}
+	  onNoClick(): void {
+	    this.dialogRef.close();
+	  }
+	  
+	  photoInputChange(fileInputEvent: any) : void {
+	  	this.data.photo = fileInputEvent.target.files[0];
+	  }
 }
 
