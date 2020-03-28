@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { UserService } from '../user.service';
+import { UserService, User } from '../user.service';
 import { LandmarkServiceService, Landmark, LandmarkType } from '../landmark-service.service';
 
 
@@ -15,10 +15,11 @@ export class AccountComponent implements OnInit {
     hide = true;
     selectedCountry;
     greeting ;
+    currentUser : User;
 
     email = new FormControl('', [Validators.required, Validators.email]);
 	types = new FormControl();
-  	typesList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  	typesList: string[] = [];
     getErrorMessage() {
         return this.email.hasError('required') ? 'You must enter a value' :
             this.email.hasError('email') ? 'Not a valid email' :
@@ -33,6 +34,14 @@ export class AccountComponent implements OnInit {
 			promise.then(function(data : any[]) {
 				that.typesList = data;
 			});
+		var userPromise = this.userService.getCurrentUserData().then(function(data : User) {
+				that.currentUser = data;
+			});;	
     }
-
+    
+    updateUser(){
+    	var promise = this.userService.updateUser(this.currentUser);
+			promise.then(function() {
+			});
+	}
 }

@@ -63,7 +63,8 @@ export class LoginComponent implements OnInit {
 	logIn(){
 		var that = this;
 		 var promise = this.userService.logIn(this.user.email, this.user.password).then(function(){
-		  		that.registerForm.reset();
+		  		that.user.email = "";
+		  		that.user.password = "";
 		  });
 	}
 	

@@ -3,29 +3,29 @@
     <div class="account-container">
         <p>Greeting : {{greeting}}</p>
         <mat-form-field>
-            <input matInput placeholder="Enter your email" [formControl]="email" required>
+            <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="currentUser.email">
             <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'">
+            <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" [(ngModel)]="currentUser.password">
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Repeat your password" [type]="hide ? 'password' : 'text'">
+            <input matInput placeholder="Repeat your password" [type]="hide ? 'password' : 'text'" >
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="First name">
+            <input matInput placeholder="First name" [(ngModel)]="currentUser.firstName">
         </mat-form-field>
         <mat-form-field>
-            <input matInput placeholder="Last name">
+            <input matInput placeholder="Last name" [(ngModel)]="currentUser.lastName">
         </mat-form-field>
         <mat-form-field>
 		  <mat-label>Toppings</mat-label>
-		  <mat-select [formControl]="typeControl" multiple>
+		  <mat-select [formControl]="typeControl" multiple [(ngModel)]="currentUser.prefferedLandmarkTypes">
 		    <mat-option *ngFor="let type of typesList" [value]="type.key">{{type.value}}</mat-option>
 		  </mat-select>
 		</mat-form-field>
     </div>
-    <button class="btn btn-default" mat-button>Save</button>
+    <button class="btn btn-default" mat-button (click)="updateUser()">Save</button>
 </div>

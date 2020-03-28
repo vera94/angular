@@ -8,7 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class UserService {
 	appUrl = 'http://localhost:8585/travelAssistant';
     loginUrl = this.appUrl + '/login';
-    getUrl = this.appUrl + '/user';
+    getUrl = this.appUrl + '/user/';
     signUpUrl = this.appUrl + '/user/signup';
     editUserUrl = this.appUrl + '/user/update';
     result;
@@ -17,14 +17,14 @@ export class UserService {
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
   logIn(email, password) {
-  var that = this;
+ 	 var that = this;
  	return new Promise(function(resolve, reject) {
 	    that.http.post(that.loginUrl, { "email": email, "password" : password }, {
 	      headers: new HttpHeaders({'Content-Type': 'text/plain'}),
 	      observe: 'response'
 	    }).subscribe( 
-	    (response : HttpResponse<any> ) => { 
-	    	if( response.status = 200) {
+	    (response : HttpResponse<any> ) => {
+	    	if( response.status == 200) {
 		  		const header = response.headers.get('Authorization');
 		        that.cookieService.set("jwt", header);
 		        that.cookieService.set("email", email);
@@ -54,34 +54,46 @@ export class UserService {
         });
   	}
   	
-  	update(username, password) {
-	  	this.http.post<any>(this.editUserUrl, { "email": username, "password" : password }, {
-		      headers: new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.cookieService.get("jwt")),
-		      observe: 'response'
-		    }).subscribe( 
-		    (response : HttpResponse<any> ) => { 
-		  		const status = response.status;
-		        }
-		    );
+  	updateUser(user : User) {
+  		var that = this;
+	  	 	return new Promise(function(resolve, reject) {
+		  		that.http.put<any>(that.getUrl, user, {
+			      headers: new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', that.cookieService.get("jwt")),
+			      observe: 'response'
+			    }).subscribe( 
+			    (response : HttpResponse<any> ) => { 
+			  		const status = response.status;
+			  		if(status == 200){
+			 			resolve();
+		 			} else {
+		 				reject();
+		 			}
+	        });
+	    });
   	}
   	
   	getCurrentUserData() {
-  		var email = that.cookieService.get("email");
-	  	this.http.get<User>(this.getUrl + '/' + email, {
-		      headers: new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', this.cookieService.get("jwt")),
+  		var that = this;
+  	 	return new Promise(function(resolve, reject) {
+	  	that.http.get<User>(that.getUrl, {
+		      headers: new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', that.cookieService.get("jwt")),
 		      observe: 'response'
 		    }).subscribe( 
-		    (response : HttpResponse<any> ) => { 
-		  		const status = response.status;
-		        }
-		    );
+		    (response : HttpResponse<User> ) => { 
+		    		if(response.status == 200 ){ 
+			  			resolve(response.body);
+			  		} else {
+			  			reject();
+			  		}
+	        });
+	    });
   	}
 }
 
 export interface User {
-  id: number,	
   email: string;
   firstName: string;
   lastName: string;
   password: string;
+  prefferedLandmarkTypes : [];
 }

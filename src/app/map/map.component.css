@@ -1,8 +1,6 @@
-.example-element-diagram {
-  max-width: 34px;
-  border: 2px solid black;
-  padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
-  max-height: 34px;
-}
+.right-panel {
+        margin: 10px;
+        padding : 10px;
+        background-color: #fff;
+        width:80%	
+      }

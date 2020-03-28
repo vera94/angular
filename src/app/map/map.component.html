@@ -1,1 +1,26 @@
-<div id="googleMap" style="width:80%;height:380px;"></div>
+<div >
+  <mat-form-field>
+    <mat-label>Origin : </mat-label>
+    <input matInput id="origin-input" class="controls" type="text"
+            placeholder="Enter an origin location">
+  </mat-form-field>
+  <mat-form-field >
+    <mat-label>Destination : </mat-label>
+    <input matInput id="destination-input" class="controls" type="text"
+    placeholder="Enter a destination location">
+  </mat-form-field>
+  </div>	
+   <div id="mode-selector">
+   		  <input type="radio" name="type" id="changemode-driving"  checked="checked">
+          <label for="changemode-driving">Driving</label>
+          
+          <input type="radio" name="type" id="changemode-walking">
+          <label for="changemode-walking">Walking</label>
+
+          <input type="radio" name="type" id="changemode-transit">
+          <label for="changemode-transit">Transit</label>
+
+        </div>
+<div id="googleMap" style="width:80%;height:380px;padding:10px;margin:10px"></div>
+
+<div id="right-panel" class="right-panel"></div>
