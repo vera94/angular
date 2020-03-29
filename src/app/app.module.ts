@@ -7,7 +7,7 @@ import { AccountComponent } from './account/account.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatListModule, MatSidenavModule, MatToolbarModule, MatExpansionModule, MatTableModule,
-     MatInputModule, MatIconModule, MatSelectModule, MatGridListModule, MatCardModule, MatDialogModule } from '@angular/material';
+     MatInputModule, MatIconModule, MatSelectModule, MatGridListModule, MatCardModule, MatDialogModule,MatSlideToggleModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
@@ -16,6 +16,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { MapComponent } from './map/map.component';
 import { AdminComponent, AddEntityDialog } from './admin/admin.component';
 import {MatSortModule} from '@angular/material/sort';
+import {MatSliderModule} from '@angular/material/slider';
 
 
 @NgModule({
@@ -47,7 +48,9 @@ import {MatSortModule} from '@angular/material/sort';
      MatGridListModule,
      MatCardModule,
      MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSliderModule,
+    MatSlideToggleModule
      
   ],
   providers: [CookieService],

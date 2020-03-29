@@ -1,7 +1,6 @@
-<div>
-    
+  <mat-card class="card">
+  <mat-card-content >
     <div class="account-container">
-        <p>Greeting : {{greeting}}</p>
         <mat-form-field>
             <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="currentUser.email">
             <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
@@ -28,4 +27,5 @@
 		</mat-form-field>
     </div>
     <button class="btn btn-default" mat-button (click)="updateUser()">Save</button>
-</div>
+  </mat-card-content>
+  </mat-card>

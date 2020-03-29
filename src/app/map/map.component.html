@@ -1,4 +1,7 @@
-<div >
+
+  <mat-card class="card">
+  <mat-card-content >
+  <div>
   <mat-form-field>
     <mat-label>Origin : </mat-label>
     <input matInput id="origin-input" class="controls" type="text"
@@ -9,8 +12,14 @@
     <input matInput id="destination-input" class="controls" type="text"
     placeholder="Enter a destination location">
   </mat-form-field>
-  </div>	
-   <div id="mode-selector">
+  </div>
+	<div>
+  <mat-label>Maximum stopovers : {{stopovers}} </mat-label>
+   <mat-slider max=100 min=0 [(ngModel)]="stopovers">
+  </mat-slider>
+  </div>
+    <div id="mode-selector">
+    <mat-label>Travel type :</mat-label>
    		  <input type="radio" name="type" id="changemode-driving"  checked="checked">
           <label for="changemode-driving">Driving</label>
           
@@ -21,6 +30,13 @@
           <label for="changemode-transit">Transit</label>
 
         </div>
-<div id="googleMap" style="width:80%;height:380px;padding:10px;margin:10px"></div>
+        <div>
+        <mat-label>Include stays </mat-label>
+        <mat-slide-toggle></mat-slide-toggle>
+        </div>
+  </mat-card-content>
+</mat-card>
+   
+<div id="googleMap" style="width:90%;height:380px;padding:10px;margin:10px;"></div>
 
 <div id="right-panel" class="right-panel"></div>

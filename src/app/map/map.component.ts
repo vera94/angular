@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LandmarkServiceService, Landmark } from '../landmark-service.service';
+import {MatSliderModule} from '@angular/material/slider';
 declare const google: any;
 
 @Component({
@@ -10,12 +11,14 @@ declare const google: any;
 export class MapComponent implements OnInit {
 	originInput = "";
 	destinationInput = "";
+	stopovers =0;
 	
   constructor(private landmarkService : LandmarkServiceService) { }
 	
   ngOnInit() {
   	var that = this;
 	var landmarks = { data : []};  
+	var markers = [];
     let mapProp = {
             center: new google.maps.LatLng(42.7034845,23.3000629),
             zoom: 7,
@@ -23,7 +26,7 @@ export class MapComponent implements OnInit {
             mapTypeControl: false
         };
     let map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-    new AutocompleteDirectionsHandler(map);
+    
     var infowindow = new google.maps.InfoWindow({maxWidth: 300});
     this.landmarkService.getAllLandmarks(landmarks, null).then(function() {
     	for (var i in landmarks.data) {
@@ -46,22 +49,24 @@ export class MapComponent implements OnInit {
 			    IWcontent : contentString
 			});
 			marker.setMap(map);
-			
+			markers.push(marker);
 			 google.maps.event.addListener(marker, 'click', function() {
 			 	infowindow.setContent(this.IWcontent);
 	          	infowindow.open(map, this);
 	        });
     	}
+    	new AutocompleteDirectionsHandler(map, markers);
     });
   }
 
 }
 
-function AutocompleteDirectionsHandler(map) {
+function AutocompleteDirectionsHandler(map, gmarkers) {
+  this.gmarkers = gmarkers;
   this.map = map;
   this.originPlaceId = null;
   this.destinationPlaceId = null;
-  this.travelMode = 'WALKING';
+  this.travelMode = 'DRIVING';
   this.directionsService = new google.maps.DirectionsService;
   this.directionsRenderer = new google.maps.DirectionsRenderer;
   this.directionsRenderer.setMap(map);
@@ -131,12 +136,39 @@ AutocompleteDirectionsHandler.prototype.route = function() {
     return;
   }
   var me = this;
+  var routeBoxer = google.maps.RouteBoxer;
+  var distance = 20; // km
+  var waypointsSet = new Set();
 
   this.directionsService.route(
       {
         origin: {'placeId': this.originPlaceId},
         destination: {'placeId': this.destinationPlaceId},
         travelMode: this.travelMode
+      },
+      function(response, status) {
+        if (status === 'OK') {
+          var path = response.routes[0].overview_path;
+     	  var waypointsSet = drawBoxes(path, me.map , me.gmarkers);
+     	  var wpts = [];
+	      waypointsSet.forEach((wpt : any)=> {
+	      	wpts.push({
+	        location: wpt.getPosition(),
+	        stopover: true
+	      	});
+	      });
+        } else {
+          window.alert('Directions request failed due to ' + status);
+        }
+        
+        me.directionsService.route(
+      {
+        origin: {'placeId': me.originPlaceId},
+        destination: {'placeId': me.destinationPlaceId},
+        travelMode: me.travelMode,
+        waypoints : wpts,
+        optimizeWaypoints : true
+        
       },
       function(response, status) {
         if (status === 'OK') {
@@ -158,4 +190,43 @@ AutocompleteDirectionsHandler.prototype.route = function() {
           window.alert('Directions request failed due to ' + status);
         }
       });
+        
+        
+        
+      });
+      
+   
 };
+
+function drawBoxes(path, map, markers) {
+  var waypoints = new Set();
+  var circles = new Array(path.length);
+  for (var i = 0; i < path.length; i++) {
+    circles[i] = new google.maps.Circle({
+      strokeColor: '#FF0000',
+        strokeOpacity: 0.01,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.01,
+        center: path[i],
+        radius: 15000
+    });
+     
+  }
+   for (var j=0; j< markers.length; j++) {
+	   var include =false;
+	   for (var h=0; h< circles.length; h++) {
+          if (circles[h].contains(markers[j].getPosition())) {
+             include = true; 
+             break;
+         }
+       }
+	   if(include)
+			waypoints.add(markers[j]);
+	}
+	return waypoints;
+}
+
+google.maps.Circle.prototype.contains = function(latLng) {
+  return this.getBounds().contains(latLng) && google.maps.geometry.spherical.computeDistanceBetween(this.getCenter(), latLng) <= this.getRadius();
+}
