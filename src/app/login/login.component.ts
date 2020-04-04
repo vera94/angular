@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators, FormBuilder, FormGroup} from '@angular/forms';
 import { UserService, User } from '../user.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-login',
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
     confirmPassword;
     
 
-    constructor(private formBuilder: FormBuilder, private userService : UserService) { }
+    constructor(private formBuilder: FormBuilder, private userService : UserService, private router : Router) { }
     
     ngOnInit() {
 	    this.registerForm = this.formBuilder.group({
@@ -65,6 +66,7 @@ export class LoginComponent implements OnInit {
 		 var promise = this.userService.logIn(this.user.email, this.user.password).then(function(){
 		  		that.user.email = "";
 		  		that.user.password = "";
+		  		that.router.navigate(['']);
 		  });
 	}
 	
