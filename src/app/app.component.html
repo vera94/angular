@@ -16,7 +16,7 @@
         <mat-toolbar class="greeting">
             <div class="greeting">
                 <h1 align="center">Welcome to Travel Assistant!</h1>
-            
+           		<button mat-raised-button (click)="logOut()" class="login-button"  [ngStyle]="{'visibility':isLoggedUser ? 'visible' : 'hidden'}">Log Out</button>
             </div>
         </mat-toolbar>
 

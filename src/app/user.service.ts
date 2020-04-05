@@ -8,6 +8,7 @@ import { CookieService } from 'ngx-cookie-service';
 export class UserService {
 	appUrl = 'http://localhost:8585/travelAssistant';
     loginUrl = this.appUrl + '/login';
+    logoutUrl = this.appUrl + '/logout';
     getUrl = this.appUrl + '/user/';
     signUpUrl = this.appUrl + '/user/signup';
     editUserUrl = this.appUrl + '/user/update';
@@ -35,6 +36,25 @@ export class UserService {
 	        }
 	    );
     });
+  }
+  
+  logOut() {
+ 	 var that = this;
+	  	 	return new Promise(function(resolve, reject) {
+		  		that.http.post<any>(that.logoutUrl, {}, {
+			      headers: new HttpHeaders().set('Authorization', that.cookieService.get("jwt")),
+			      observe: 'response'
+			    }).subscribe( 
+			    (response : HttpResponse<any> ) => { 
+			  		const status = response.status;
+			  		if(status == 200){
+			  			that.cookieService.deleteAll();
+			 			resolve();
+		 			} else {
+		 				reject();
+		 			}
+	        });
+	    });
   }
   
     signUp(user : User) {
