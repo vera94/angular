@@ -44,8 +44,16 @@
         <div class="expanded-clmn">
           {{element.description}}
         </div>
-        <button class="btn" (click)="editLandmark(element)">Edit</button>
-        <button class="btn" (click)="deleteLandmark(element.id)">Remove</button>
+        <div class="stars">
+		      <ul class="list-inline rating-list" 
+		          *ngFor="let star of stars" style="display: inline-block" >
+		            <li [ngClass]="{'selected': (star <= element.rating)}">
+		              <i class="fa fa-star"></i>
+		            </li> 
+		      </ul>
+		</div>
+        <button class="btn" (click)="editLandmark(element)" [ngStyle]="{'visibility':isAdminUser ? 'visible' : 'hidden'}">Edit</button>
+        <button class="btn" (click)="deleteLandmark(element.id)"  [ngStyle]="{'visibility':isAdminUser ? 'visible' : 'hidden'}">Remove</button>
       </div>
     </td>
   </ng-container>

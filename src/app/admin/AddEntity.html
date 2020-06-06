@@ -25,6 +25,15 @@
     <mat-label>Lng</mat-label>
     <input matInput [(ngModel)]="data.landmark.lng">
   </mat-form-field>
+  <div class="stars" >
+      <ul class="list-inline rating-list" 
+          *ngFor="let star of [1,2,3,4,5]" style="display: inline-block" >
+            <li (click)="countStar(star)"
+                [ngClass]="{'selected': (star <= data.landmark.rating)}">
+              <i class="fa fa-star"></i>
+            </li> 
+      </ul>
+  </div>
   <input class="ng-hide" id="input-image-id" multiple type="file" (change)="photoInputChange($event)" />
 </div>
 <div mat-dialog-actions>

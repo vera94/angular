@@ -6,12 +6,13 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import { CookieService } from 'ngx-cookie-service';
+declare var $:any
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
-  animations: [
+  animations: [ 
     trigger('detailExpand', [
       state('collapsed', style({height: '0px', minHeight: '0'})),
       state('expanded', style({height: '*'})),
@@ -25,11 +26,15 @@ export class AdminComponent implements OnInit {
 	isAdminUser = false;
 	dataSource = new MatTableDataSource<Landmark>();
   columnsToDisplay = ['id', 'name','type', 'lat', 'lng'];
+ stars: number[] = [1, 2, 3, 4, 5];
+    selectedValue: number;
   expandedLandmark: Landmark | null;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   
   constructor(public dialog: MatDialog, private landmarkService : LandmarkServiceService, public changeDetectorRef :ChangeDetectorRef,
-  	private cookieService: CookieService) {}
+  	private cookieService: CookieService) {
+  		this.isAdminUser = this.cookieService.get("role") == "ADMIN";
+  	}
  	
 
   ngOnInit() {
@@ -42,11 +47,13 @@ export class AdminComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
+
  openDialog(landmarkData): void {
  	var isEdit;
  	var photo;
  	var text = "";
+ 	var stars: number[] = [1, 2, 3, 4, 5];
+ 	
  	isEdit = !!landmarkData && !!landmarkData.id;
  	if(!isEdit){
  		landmarkData = {};
@@ -57,7 +64,8 @@ export class AdminComponent implements OnInit {
  	 
     const dialogRef = this.dialog.open(AddEntityDialog, {
       width: '250px',
-      data: { landmark : landmarkData, photo : {}, dialogText : text }
+      data: { landmark : $.extend(true, {},landmarkData), photo : {}, dialogText : text },
+      panelClass: 'rating-list'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -68,6 +76,8 @@ export class AdminComponent implements OnInit {
 			promise.then(function() {
 			  that.landmarkService.getAllLandmarks(that.dataSource, that.changeDetectorRef);
 			});
+      } else {
+      	
       }
     });
   }
@@ -95,11 +105,13 @@ export class AdminComponent implements OnInit {
   templateUrl: './AddEntity.html',
 })
 export class AddEntityDialog {
+
 	 typesList = [];
 	typeControl = new FormControl('', Validators.required);
   constructor(
     public dialogRef: MatDialogRef<AddEntityDialog>,
-    @Inject(MAT_DIALOG_DATA) public data: Landmark, private landmarkService : LandmarkServiceService,) {}
+    @Inject(MAT_DIALOG_DATA) public data: any, private landmarkService : LandmarkServiceService) {
+    }
 	ngOnInit() {
 	var that = this;
 	 var promise = this.landmarkService.getLandmarkTypes(this.typesList);
@@ -114,5 +126,10 @@ export class AddEntityDialog {
 	  photoInputChange(fileInputEvent: any) : void {
 	  	this.data.photo = fileInputEvent.target.files[0];
 	  }
+	  
+	countStar(star) {
+      this.data.landmark.rating = star;
+      console.log('Value of star', star);
+ 	}
 }
 

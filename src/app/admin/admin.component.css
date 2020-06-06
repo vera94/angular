@@ -65,6 +65,31 @@ th.mat-sort-header-sorted {
  	left: 40px;
 }
 
+.stars {
+	margin: 1px;
+	width: 20%;
+	height: 20%;
+ 	left: 40px;
+}
+
 th.mat-sort-header-sorted {
   color: black;
+}
+
+::ng-deep  .rating-list li {
+  float: right;
+  color: #ddd;
+  margin: 1px;
+
+}
+
+::ng-deep .rating-list li:hover,
+::ng-deep .rating-list li:hover ~ li,::ng-deep .rating-list li.selected {
+  color: #ffd700;
+}
+
+::ng-deep .rating-list {
+   margin: 1px;
+   padding: 0px 0px 0px 0px;
+  list-style: none;
 }

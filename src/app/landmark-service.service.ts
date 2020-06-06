@@ -97,6 +97,7 @@ export interface Landmark {
   description: string;
   lat: number;
   lng: number;
+  rating: number;
   type: string;
   landmarkTypeName : string;
   photo: any;
