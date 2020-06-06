@@ -14,9 +14,10 @@
   </mat-form-field>
   </div>
 	<div>
-  <mat-label>Maximum stopovers : {{stopovers}} </mat-label>
-   <mat-slider max=100 min=0 [(ngModel)]="stopovers">
-  </mat-slider>
+	<mat-form-field class="numberInput" >
+ 	<mat-label>Maximum stopovers : {{stopovers}} </mat-label>
+    <input matInput  type="number" [(ngModel)]="stopovers">
+    </mat-form-field>
   </div>
     <div id="mode-selector">
     <mat-label>Travel type :</mat-label>
@@ -32,11 +33,17 @@
         </div>
         <div>
         <mat-label>Include stays </mat-label>
-        <mat-slide-toggle></mat-slide-toggle>
-        </div>
+        <mat-slide-toggle  [(ngModel)]="includeHotels"></mat-slide-toggle>
+
+	<mat-form-field class="rightInput" >
+ 	<mat-label>Hotel stays : {{hotelStaus}} </mat-label>
+    <input matInput  type="number" [(ngModel)]="hotelStaus" disabled={{!includeHotels}} >
+    </mat-form-field>
+  </div>
   </mat-card-content>
 </mat-card>
    
 <div id="googleMap" style="width:90%;height:380px;padding:10px;margin:10px;"></div>
 
-<div id="right-panel" class="right-panel"></div>
+<div id="right-panel" class="right-panel">
+<a id="dwnldBtn">Download directions</a></div>

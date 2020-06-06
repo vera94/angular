@@ -11,7 +11,10 @@ declare const google: any;
 export class MapComponent implements OnInit {
 	originInput = "";
 	destinationInput = "";
-	stopovers =0;
+	stopovers =5;
+	hotelStaus=0;
+	includeHotels=false;
+	linkInfo;
 	
   constructor(private landmarkService : LandmarkServiceService) { }
 	
@@ -55,15 +58,21 @@ export class MapComponent implements OnInit {
 	          	infowindow.open(map, this);
 	        });
     	}
-    	new AutocompleteDirectionsHandler(map, markers);
+    	new AutocompleteDirectionsHandler(map, markers, that.linkInfo);
     });
+  }
+  downloadDirections() {
+  	if(!!this.linkInfo) {
+  		this.linkInfo.click() 
+  	}
   }
 
 }
 
-function AutocompleteDirectionsHandler(map, gmarkers) {
+function AutocompleteDirectionsHandler(map, gmarkers, linkInfo) {
   this.gmarkers = gmarkers;
   this.map = map;
+  this.linkInfo = linkInfo;
   this.originPlaceId = null;
   this.destinationPlaceId = null;
   this.travelMode = 'DRIVING';
@@ -175,17 +184,24 @@ AutocompleteDirectionsHandler.prototype.route = function() {
           me.directionsRenderer.setDirections(response);
           var content = ""
           if(!!response){
-          	response.routes[0].legs[0].steps.forEach( step => {
-          		content = content + step.instructions + "\t" + step.distance.text + "\t" + step.duration.text + "\n";
+          	response.routes[0].legs.forEach( leg => {
+          		if(!!content) {
+          			content = content + "\n\n";
+          		}
+          	    content = content + leg.end_address+ "\n";
+          	    content = content + leg.distance.text + "\t" + leg.duration.text + "\n\n";
+	          	leg.steps.forEach( step => {
+	          		content = content + step.instructions + "\t" + step.distance.text + "\t" + step.duration.text + "\n";
+	         	});
          	});
          	content = content.replace(/<[^>]*>/g,'');
           }
           const blob = new Blob([content], {type: 'text/csv'});
 		  var downloadURL = window.URL.createObjectURL(blob);
-		  var link = document.createElement('a');
+		  var link = <HTMLAnchorElement>document.getElementById('dwnldBtn');
 		  link.href = downloadURL;
-		  link.download = "Directions "+ response.routes[0].legs[0].start_address + " " +response.routes[0].legs[0].end_address+  ".txt";
-		  link.click();
+		  var legs =response.routes[0].legs;
+		  link.download = "Directions "+ legs[0].start_address + " " +legs[legs.length -1].end_address+  ".txt";
         } else {
           window.alert('Directions request failed due to ' + status);
         }

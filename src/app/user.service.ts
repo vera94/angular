@@ -27,8 +27,10 @@ export class UserService {
 	    (response : HttpResponse<any> ) => {
 	    	if( response.status == 200) {
 		  		const header = response.headers.get('Authorization');
+		  		const userRole = response.headers.get('Role');
 		        that.cookieService.set("jwt", header);
 		        that.cookieService.set("email", email);
+		        that.cookieService.set("role", userRole);
 		        resolve();
 	        } else {
 	        	reject();

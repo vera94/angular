@@ -5,6 +5,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-admin',
@@ -21,12 +22,14 @@ import {MatSort} from '@angular/material/sort';
 })
 
 export class AdminComponent implements OnInit {
+	isAdminUser = false;
 	dataSource = new MatTableDataSource<Landmark>();
   columnsToDisplay = ['id', 'name','type', 'lat', 'lng'];
   expandedLandmark: Landmark | null;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   
-  constructor(public dialog: MatDialog, private landmarkService : LandmarkServiceService, public changeDetectorRef :ChangeDetectorRef ) {}
+  constructor(public dialog: MatDialog, private landmarkService : LandmarkServiceService, public changeDetectorRef :ChangeDetectorRef,
+  	private cookieService: CookieService) {}
  	
 
   ngOnInit() {
