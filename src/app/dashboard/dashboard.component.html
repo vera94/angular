@@ -1,4 +1,32 @@
-<mat-grid-list cols="4" rowHeight="100px">
+<!-- div class="upperMenu">
+<button class="btn" mat-raised-button (click)="addLandmarkType()">Add new landmark type</button>
+</div -->
+<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+  <!-- This is the tree node template for leaf nodes -->
+  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+    <!-- use a disabled button to provide padding for tree leaf -->
+    <button mat-icon-button disabled></button>
+    {{node.type}}
+    <button mat-icon-button (click)="addNewItem(node)"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button (click)="editItem(node)"><mat-icon>edit</mat-icon></button>
+    <button mat-icon-button (click)="deleteItem(node)"><mat-icon>delete</mat-icon></button>
+  </mat-tree-node>
+  <!-- This is the tree node template for expandable nodes -->
+  <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+    <button mat-icon-button matTreeNodeToggle
+            [attr.aria-label]="'toggle ' + node.type">
+      <mat-icon class="mat-icon-rtl-mirror">
+        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+      </mat-icon>
+    </button>
+    {{node.type}}
+    <button mat-icon-button (click)="addNewItem(node)"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button (click)="editItem(node)"><mat-icon>edit</mat-icon></button>
+    <button mat-icon-button (click)="deleteItem(node.id)"><mat-icon>delete</mat-icon></button>
+  </mat-tree-node>
+</mat-tree>
+
+<!--  mat-grid-list cols="4" rowHeight="100px">
   <mat-grid-tile
       *ngFor="let tile of tiles"
       [colspan]="tile.cols"
@@ -6,4 +34,4 @@
       [style.background]="tile.color">
     {{tile.text}}
   </mat-grid-tile>
-</mat-grid-list>
+</mat-grid-list-->

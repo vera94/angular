@@ -1,0 +1,21 @@
+<div mat-dialog-content>
+  <p>{{data.dialogText}}</p>
+  <mat-form-field>
+    <mat-label>Type : </mat-label>
+    <input matInput [(ngModel)]="data.landmarkType.type" >
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Google maps mapping : </mat-label>
+    <mat-select [(ngModel)]="data.landmarkType.gmapMapping">
+		    <mat-option *ngFor="let type of data.gmapTypes" [value]="type">{{type}}</mat-option>
+		  </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+  		<mat-label>Path : </mat-label>
+		<input matInput [(ngModel)]="data.landmarkType.path" [disabled]='true'>
+	</mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Close</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Save</button>
+</div>

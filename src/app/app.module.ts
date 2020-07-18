@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccountComponent } from './account/account.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent, AddTypeDialog } from './dashboard/dashboard.component';
 import { MatListModule, MatSidenavModule, MatToolbarModule, MatExpansionModule, MatTableModule,
      MatInputModule, MatIconModule, MatSelectModule, MatGridListModule, MatCardModule, MatDialogModule,MatSlideToggleModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
@@ -17,6 +17,7 @@ import { MapComponent } from './map/map.component';
 import { AdminComponent, AddEntityDialog } from './admin/admin.component';
 import {MatSortModule} from '@angular/material/sort';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatTreeModule} from '@angular/material/tree';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {MatSliderModule} from '@angular/material/slider';
     AppComponent,
     AccountComponent,
     DashboardComponent,
+    AddTypeDialog,
     LoginComponent,
     MapComponent,
     AdminComponent,
@@ -50,11 +52,12 @@ import {MatSliderModule} from '@angular/material/slider';
      MatTableModule,
     MatDialogModule,
     MatSliderModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatTreeModule
      
   ],
   providers: [CookieService],
   bootstrap: [AppComponent],
-  entryComponents: [AdminComponent, AddEntityDialog],
+  entryComponents: [AdminComponent, AddEntityDialog, AddTypeDialog],
 })
 export class AppModule { }

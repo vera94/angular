@@ -8,9 +8,13 @@ import { CookieService } from 'ngx-cookie-service';
 export class LandmarkServiceService {
 	appUrl = 'http://localhost:8585/travelAssistant';
     getAllUrl = this.appUrl + '/landmark/all';
+    getDBLandmarksUrl = this.appUrl + '/landmark/dblandmarks';
     addUrl = this.appUrl + '/landmark';
     deleteUrl = this.appUrl + '/landmark/delete/';
-    getLandmarkTypesUrl = this.appUrl + '/landmark/types';
+    getLandmarkTypesUrl = this.appUrl + '/types/all';
+    getGmapTypesUrl = this.appUrl + '/types/gmap';
+    addTypeUrl = this.appUrl + '/types';
+    deleteTypeUrl = this.appUrl + '/types/delete/';
     
 	constructor(private http: HttpClient, private cookieService: CookieService) { }
     
@@ -29,6 +33,35 @@ export class LandmarkServiceService {
 		            } );
         });
 	}
+	
+	    getDBLandmarks(data, changeDetectorRef : ChangeDetectorRef) {
+    	var that = this;
+  	 	return new Promise(function(resolve, reject) {
+		     that.http.get<Landmark[]>(that.getDBLandmarksUrl, {
+		      headers: new HttpHeaders({'Content-Type': 'application/json'}).set('Authorization', that.cookieService.get("jwt")),
+		      observe: 'response'
+		     }).subscribe((response : HttpResponse<Landmark[]>) => {
+		             data.data = response.body;
+		             resolve();
+		             if(!!changeDetectorRef) {
+		             	changeDetectorRef.detectChanges();
+		             }
+		            } );
+        });
+	}
+	
+	getGmapTypes(data) {
+	    	var that = this;
+	  	 	return new Promise(function(resolve, reject) {
+			     that.http.get<LandmarkType[]>(that.getGmapTypesUrl, {
+			      headers: new HttpHeaders({'Content-Type': 'application/json'}).set('Authorization', that.cookieService.get("jwt")),
+			      observe: 'response'
+			     }).subscribe((response : HttpResponse<LandmarkType[]>) => {
+			             data = response.body;
+			             resolve(data);
+			            } );
+	        });
+		}
   
 	  getLandmarkTypes(data) {
 	    	var that = this;
@@ -42,6 +75,32 @@ export class LandmarkServiceService {
 			            } );
 	        });
 		}
+  addLandmarkType(data, isEdit) {
+  	 	var that = this;
+  	 	return new Promise(function(resolve, reject) {
+	  		
+	  		if(isEdit){
+	  			that.http.put(that.addTypeUrl, data, {
+	  			 headers: new HttpHeaders().set('Authorization', that.cookieService.get("jwt")).set('Content-Type', 'application/json')}).subscribe((data: any) =>{
+				    if(data){
+				      resolve();
+				    }
+				    else{
+				      reject()
+				    } });
+	  		} else {  		
+		    	that.http.post(that.addTypeUrl, data, {
+		    	headers: new HttpHeaders().set('Authorization', that.cookieService.get("jwt"))})
+		    	.subscribe((result: any) =>{
+				    if(result){
+				      resolve();
+				    }
+				    else{
+				      reject()
+				    } });
+		    }
+	    });
+	}
   
   	 addLandmark(data, isEdit) {
   	 	var that = this;
@@ -89,6 +148,23 @@ export class LandmarkServiceService {
 	            } );
         });
 	}
+	
+	deleteLandmarkType(id) {
+		var that = this;
+  	 	return new Promise(function(resolve, reject) {
+		     that.http.delete(that.deleteTypeUrl + id, {
+		      headers: new HttpHeaders({'Content-Type': 'application/json'}).set('Authorization', that.cookieService.get("jwt")),
+		      observe: 'response'
+		    }).subscribe((data : HttpResponse<any>) => {
+	            	if(data){
+				      resolve();
+				    }
+				    else{
+				      reject()
+			        }
+	            } );
+        });
+	}
 }
 
 export interface Landmark {
@@ -104,8 +180,13 @@ export interface Landmark {
 }
 
 export interface LandmarkType {
-  key: string,	
-  value: string;
+  id: number,	
+  type: string,	
+  path: string,
+  parentPath: string,
+  gmapMapping : string,
+  children : any;
+  
 }
 
 

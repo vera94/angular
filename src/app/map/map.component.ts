@@ -24,7 +24,7 @@ export class MapComponent implements OnInit {
 	var markers = [];
     let mapProp = {
             center: new google.maps.LatLng(42.7034845,23.3000629),
-            zoom: 7,
+            zoom: 12,
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             mapTypeControl: false
         };
@@ -225,7 +225,7 @@ function drawBoxes(path, map, markers) {
         fillColor: '#FF0000',
         fillOpacity: 0.01,
         center: path[i],
-        radius: 15000
+        radius: 100000
     });
      
   }

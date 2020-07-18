@@ -6,9 +6,10 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { MatTableDataSource } from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import { CookieService } from 'ngx-cookie-service';
-declare var $:any
 
-@Component({
+declare var $:any;
+
+@Component({ 
   selector: 'app-admin',
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css'],
@@ -40,7 +41,7 @@ export class AdminComponent implements OnInit {
   ngOnInit() {
   	var that= this;
   	this.dataSource.sort = this.sort;
- 	 this.landmarkService.getAllLandmarks(this.dataSource, this.changeDetectorRef);
+ 	 this.landmarkService.getDBLandmarks(this.dataSource, this.changeDetectorRef);
   }
   
   applyFilter(event: Event) {
@@ -105,7 +106,6 @@ export class AdminComponent implements OnInit {
   templateUrl: './AddEntity.html',
 })
 export class AddEntityDialog {
-
 	 typesList = [];
 	typeControl = new FormControl('', Validators.required);
   constructor(
