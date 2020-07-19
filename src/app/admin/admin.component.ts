@@ -75,7 +75,7 @@ export class AdminComponent implements OnInit {
             var that = this;
 			var promise = this.landmarkService.addLandmark(result, isEdit);
 			promise.then(function() {
-			  that.landmarkService.getAllLandmarks(that.dataSource, that.changeDetectorRef);
+			  that.landmarkService.getDBLandmarks(that.dataSource, that.changeDetectorRef);
 			});
       } else {
       	
@@ -87,7 +87,7 @@ export class AdminComponent implements OnInit {
   		var that = this;
 		var promise = this.landmarkService.deleteLandmark(id);
 		promise.then(function() {
-		  that.landmarkService.getAllLandmarks(that.dataSource, that.changeDetectorRef);
+		  that.landmarkService.getDBLandmarks(that.dataSource, that.changeDetectorRef);
 		});
   	
   }
@@ -114,7 +114,7 @@ export class AddEntityDialog {
     }
 	ngOnInit() {
 	var that = this;
-	 var promise = this.landmarkService.getLandmarkTypes(this.typesList);
+	 var promise = this.landmarkService.getLandmarkTypesAsList(this.typesList);
 		promise.then(function(data : any[]) {
 			that.typesList = data;
 		});

@@ -26,6 +26,7 @@ interface ExampleFlatNode extends LandmarkType{
 export class DashboardComponent implements OnInit {
 	typesList = [];
 	gmapTypes = [];
+	typesLoaded = false;
 
     ngOnInit() {
      var that = this;
@@ -33,11 +34,12 @@ export class DashboardComponent implements OnInit {
 		promise.then(function(data : any[]) {
 			that.typesList = data;
 			that.dataSource.data = data;
-			
+			that.typesLoaded = true;
 		});
 	var promise = this.landmarkService.getGmapTypes(this.gmapTypes);
 		promise.then(function(data : any[]) {
 			that.gmapTypes = data;
+		that.treeControl.expand(that.treeControl.dataNodes[0]);
 		});
     }
     

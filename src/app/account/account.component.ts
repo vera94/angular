@@ -50,14 +50,13 @@ export class AccountComponent implements OnInit {
 			console.log("typesPromise 1");
 			that.typesList = data;
 			that.dataSource.data = data;
-			console.log("typesPromise 2");
 			that.typesLoaded = true;
 		});	
 		var userPromise = this.userService.getCurrentUserData().then(function(data : User) {
 				that.currentUser = data;
 				console.log("userPromise");
 				that.userLoaded = true;
-				data.prefferedLandmarkTypes.every( (x:LandmarkType) => {
+				data.prefferedLandmarkTypes.forEach( (x:LandmarkType) => {
 				var nodes =that.treeControl.dataNodes;
 				var y;
 					for (y in nodes) {

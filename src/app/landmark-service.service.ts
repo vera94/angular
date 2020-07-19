@@ -12,6 +12,7 @@ export class LandmarkServiceService {
     addUrl = this.appUrl + '/landmark';
     deleteUrl = this.appUrl + '/landmark/delete/';
     getLandmarkTypesUrl = this.appUrl + '/types/all';
+    getLandmarkTypesListUrl = this.appUrl + '/types/list';
     getGmapTypesUrl = this.appUrl + '/types/gmap';
     addTypeUrl = this.appUrl + '/types';
     deleteTypeUrl = this.appUrl + '/types/delete/';
@@ -67,6 +68,19 @@ export class LandmarkServiceService {
 	    	var that = this;
 	  	 	return new Promise(function(resolve, reject) {
 			     that.http.get<LandmarkType[]>(that.getLandmarkTypesUrl, {
+			      headers: new HttpHeaders({'Content-Type': 'application/json'}).set('Authorization', that.cookieService.get("jwt")),
+			      observe: 'response'
+			     }).subscribe((response : HttpResponse<LandmarkType[]>) => {
+			             data = response.body;
+			             resolve(data);
+			            } );
+	        });
+		}
+		
+		getLandmarkTypesAsList(data) {
+	    	var that = this;
+	  	 	return new Promise(function(resolve, reject) {
+			     that.http.get<LandmarkType[]>(that.getLandmarkTypesListUrl, {
 			      headers: new HttpHeaders({'Content-Type': 'application/json'}).set('Authorization', that.cookieService.get("jwt")),
 			      observe: 'response'
 			     }).subscribe((response : HttpResponse<LandmarkType[]>) => {
@@ -174,7 +188,7 @@ export interface Landmark {
   lat: number;
   lng: number;
   rating: number;
-  type: string;
+  type: LandmarkType;
   landmarkTypeName : string;
   photo: any;
 }
