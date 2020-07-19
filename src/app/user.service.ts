@@ -12,6 +12,7 @@ export class UserService {
     getUrl = this.appUrl + '/user/';
     signUpUrl = this.appUrl + '/user/signup';
     editUserUrl = this.appUrl + '/user/update';
+    saveUserPrefferedTypesUrl = this.appUrl + '/user/prefferdTypes';
     result;
     token;
 
@@ -80,6 +81,24 @@ export class UserService {
   		var that = this;
 	  	 	return new Promise(function(resolve, reject) {
 		  		that.http.put<any>(that.getUrl, user, {
+			      headers: new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', that.cookieService.get("jwt")),
+			      observe: 'response'
+			    }).subscribe( 
+			    (response : HttpResponse<any> ) => { 
+			  		const status = response.status;
+			  		if(status == 200){
+			 			resolve();
+		 			} else {
+		 				reject();
+		 			}
+	        });
+	    });
+  	}
+  	
+  	 updateUserPrefferences(prefferedTypes) {
+  		var that = this;
+	  	 	return new Promise(function(resolve, reject) {
+		  		that.http.put<any>(that.saveUserPrefferedTypesUrl, prefferedTypes, {
 			      headers: new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', that.cookieService.get("jwt")),
 			      observe: 'response'
 			    }).subscribe( 

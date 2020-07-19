@@ -7,7 +7,8 @@ import { AccountComponent } from './account/account.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent, AddTypeDialog } from './dashboard/dashboard.component';
 import { MatListModule, MatSidenavModule, MatToolbarModule, MatExpansionModule, MatTableModule,
-     MatInputModule, MatIconModule, MatSelectModule, MatGridListModule, MatCardModule, MatDialogModule,MatSlideToggleModule } from '@angular/material';
+     MatInputModule, MatIconModule, MatSelectModule, MatGridListModule, MatCardModule, MatDialogModule,
+     MatSlideToggleModule, MatCheckboxModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './login/login.component';
@@ -53,6 +54,7 @@ import {MatTreeModule} from '@angular/material/tree';
     MatDialogModule,
     MatSliderModule,
     MatSlideToggleModule,
+    MatCheckboxModule,
     MatTreeModule
      
   ],

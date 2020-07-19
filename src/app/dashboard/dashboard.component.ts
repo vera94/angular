@@ -26,12 +26,6 @@ interface ExampleFlatNode extends LandmarkType{
 export class DashboardComponent implements OnInit {
 	typesList = [];
 	gmapTypes = [];
-    tiles: Tile[] = [
-        { text: 'Hotels', cols: 3, rows: 1, color: 'lightblue' },
-        { text: 'Sights', cols: 1, rows: 2, color: 'lightgreen' },
-        { text: 'Restaurants', cols: 1, rows: 1, color: 'lightpink' },
-        { text: 'Fun facts and legends', cols: 2, rows: 1, color: '#DDBDF1' },
-    ];
 
     ngOnInit() {
      var that = this;
