@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import {FlatTreeControl} from '@angular/cdk/tree';
-import { MatCheckboxModule } from '@angular/material'
+import { MatCheckboxModule , MatProgressBarModule} from '@angular/material'
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { UserService, User } from '../user.service';
 import { LandmarkServiceService, Landmark, LandmarkType } from '../landmark-service.service';
@@ -22,6 +22,9 @@ export class AccountComponent implements OnInit {
     greeting ;
     currentUser : User;
     checklistSelection : SelectionModel<ExampleFlatNode>;
+    typesLoaded = false;
+	userLoaded = false;
+	initialSelection : Array<ExampleFlatNode>;
 
     email = new FormControl('', [Validators.required, Validators.email]);
 	types = new FormControl();
@@ -40,22 +43,69 @@ export class AccountComponent implements OnInit {
     this.treeControl = new FlatTreeControl<ExampleFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
     this.checklistSelection = new SelectionModel<ExampleFlatNode>(true /* multiple */);
+	console.log("constructor 1 ");
+
     var typesPromise = this.landmarkService.getLandmarkTypes(this.typesList);
 		typesPromise.then(function(data : any[]) {
+			console.log("typesPromise 1");
 			that.typesList = data;
 			that.dataSource.data = data;
-			
+			console.log("typesPromise 2");
+			that.typesLoaded = true;
 		});	
 		var userPromise = this.userService.getCurrentUserData().then(function(data : User) {
 				that.currentUser = data;
+				console.log("userPromise");
+				that.userLoaded = true;
+				data.prefferedLandmarkTypes.every( (x:LandmarkType) => {
+				var nodes =that.treeControl.dataNodes;
+				var y;
+					for (y in nodes) {
+						if (nodes.hasOwnProperty(y) && nodes[y].id == x.id) {
+							that.todoItemSelectionToggle(nodes[y]);
+							var parent = nodes[y];
+							var ancestors = [];
+							
+							while (parent) {
+							  ancestors.push(nodes.indexOf(parent));
+						      parent = that.getParentNode(parent);
+						    }
+						    for (var _i = ancestors.length -1 ; _i >= 0; _i--) {
+						    	that.treeControl.expand(nodes[ancestors[_i]]);
+							}
+							that.treeControl.expand(nodes[y]);
+						}
+					}
+				});
 			});
+			console.log("constructor 2 ");
      }
+     
+     getParentNode(node: ExampleFlatNode): ExampleFlatNode | null {
+    const currentLevel = this.getLevel(node);
+
+    if (currentLevel < 1) {
+      return null;
+    }
+
+    const startIndex = this.treeControl.dataNodes.indexOf(node) - 1;
+
+    for (let i = startIndex; i >= 0; i--) {
+      const currentNode = this.treeControl.dataNodes[i];
+
+      if (this.getLevel(currentNode) < currentLevel) {
+        return currentNode;
+      }
+    }
+    return null;
+  }
 getLevel = (node: ExampleFlatNode) => node.level;
 
   isExpandable = (node: ExampleFlatNode) => node.expandable;
 
   getChildren = (node: ExampleFlatNode): ExampleFlatNode[] => node.children;
     ngOnInit() {
+    	console.log("ngOnInit");
     }
     
     updateUser(){
@@ -72,14 +122,16 @@ getLevel = (node: ExampleFlatNode) => node.level;
 	}
 	
 	  private _transformer = (node: LandmarkType, level: number) => {
-    return {
-      expandable: !!node.children && node.children.length > 0,
-      type: node.type,
-      level: level,
-      path: node.path,
-      id: node.id,
-	  gmapMapping : node.gmapMapping
-    };
+	  console.log("_transformer ");
+	  var newNode = {
+	      expandable: !!node.children && node.children.length > 0,
+	      type: node.type,
+	      level: level,
+	      path: node.path,
+	      id: node.id,
+		  gmapMapping : node.gmapMapping
+	    }
+      return newNode;
   }
 
   treeControl = new FlatTreeControl<ExampleFlatNode>(

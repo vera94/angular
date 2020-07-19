@@ -1,6 +1,7 @@
-  <mat-card class="card">
+ <mat-card class="card">
   <mat-card-content >
-    <div class="account-container">
+  	<mat-progress-bar mode="query" *ngIf="userLoaded == false"></mat-progress-bar>
+    <div class="account-container" *ngIf="userLoaded">
         <mat-form-field>
             <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="currentUser.email">
             <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
@@ -25,7 +26,9 @@
   </mat-card>
    <mat-card class="card">
   <mat-card-content >
-    <div class="account-container">
+  	<mat-progress-bar mode="query" *ngIf="(typesLoaded && userLoaded) == false"></mat-progress-bar>
+    
+    <div class="account-container" *ngIf="(typesLoaded && userLoaded) == true">
 	<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
 	<!-- This is the tree node template for leaf nodes --> 
 	<mat-tree-node

@@ -19,6 +19,7 @@ import { AdminComponent, AddEntityDialog } from './admin/admin.component';
 import {MatSortModule} from '@angular/material/sort';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatTreeModule} from '@angular/material/tree';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import {MatTreeModule} from '@angular/material/tree';
     MatSliderModule,
     MatSlideToggleModule,
     MatCheckboxModule,
+    MatProgressBarModule,
     MatTreeModule
      
   ],
