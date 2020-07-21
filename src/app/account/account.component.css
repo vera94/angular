@@ -10,3 +10,14 @@
         float: left;
 }
 
+.iconBtn {
+	margin: 3px;
+ 	position:relative;
+ 	border-style: none;
+ 	background-color: transparent;
+ 	outline:none;
+}
+
+.mat-icon {
+  font-size: 15px;
+}

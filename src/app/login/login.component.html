@@ -13,7 +13,8 @@
                 </mat-form-field>
 
                 <mat-form-field>
-                    <input matInput placeholder="password" [(ngModel)]="user.password">
+                    <input matInput placeholder="password" [(ngModel)]="user.password"  [type]="hide ? 'password' : 'text'">
+                     <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </mat-form-field>
             </div>
             <button class="btn btn-default" mat-button (click)="logIn()">Log In</button>

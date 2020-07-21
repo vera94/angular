@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LandmarkServiceService, Landmark } from '../landmark-service.service';
 import {MatSliderModule} from '@angular/material/slider';
+import { MatProgressBarModule} from '@angular/material'
 declare const google: any;
 
 @Component({
@@ -16,7 +17,11 @@ export class MapComponent implements OnInit {
 	includeHotels=false;
 	linkInfo;
 	
-  constructor(private landmarkService : LandmarkServiceService) { }
+	dataLoaded = false;
+	
+  constructor(private landmarkService : LandmarkServiceService) {
+  console.log("1 data loaded false");
+   }
 	
   ngOnInit() {
   	var that = this;
@@ -59,6 +64,8 @@ export class MapComponent implements OnInit {
 	        });
     	}
     	new AutocompleteDirectionsHandler(map, markers, that.linkInfo);
+    	console.log("2 data loaded true");
+    	that.dataLoaded = true;
     });
   }
   downloadDirections() {

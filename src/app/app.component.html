@@ -7,7 +7,7 @@
             <div [ngStyle]="{'visibility':isLoggedUser ? 'visible' : 'hidden'}">
             <a mat-list-item routerLink="account">Account</a>
             <a mat-list-item routerLink="/admin">Landmarks</a>
-            <a mat-list-item routerLink="/dashboard" >Dashboard</a>
+            <a mat-list-item routerLink="/dashboard" [ngStyle]="{'visibility':isLoggedUser ? 'visible' : 'hidden'}">Landmark Types</a>
             <a mat-list-item routerLink="/map">Map</a>
             </div>
         </mat-nav-list>

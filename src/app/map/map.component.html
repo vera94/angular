@@ -1,5 +1,5 @@
-
-  <mat-card class="card">
+  <mat-progress-bar mode="query" *ngIf="(dataLoaded == false)"></mat-progress-bar>
+  <mat-card class="card" [ngStyle]="{'display': dataLoaded ? 'block' : 'none'}">
   <mat-card-content >
   <div>
   <mat-form-field>
@@ -42,7 +42,7 @@
   </div>
   </mat-card-content>
 </mat-card>
-   
+ 
 <div id="googleMap" style="width:90%;height:380px;padding:10px;margin:10px;"></div>
 
 <div id="right-panel" class="right-panel">
