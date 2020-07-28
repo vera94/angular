@@ -10,8 +10,10 @@ export class UserService {
     loginUrl = this.appUrl + '/login';
     logoutUrl = this.appUrl + '/logout';
     getUrl = this.appUrl + '/user/';
+    getAllUrl = this.appUrl + '/user/all';
     signUpUrl = this.appUrl + '/user/signup';
     editUserUrl = this.appUrl + '/user/update';
+    setRoleUrl = this.appUrl + '/user/role';
     saveUserPrefferedTypesUrl = this.appUrl + '/user/prefferdTypes';
     result;
     token;
@@ -95,6 +97,27 @@ export class UserService {
 	    });
   	}
   	
+  	setUserRole(user: User, role : any) {
+  	if(!!user){
+  		user.grantedAuthoritiesList[0] = role;
+  		var that = this;
+	  	 	return new Promise(function(resolve, reject) {
+		  		that.http.put<any>(that.setRoleUrl, user, {
+			      headers: new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', that.cookieService.get("jwt")),
+			      observe: 'response'
+			    }).subscribe( 
+			    (response : HttpResponse<any> ) => { 
+			  		const status = response.status;
+			  		if(status == 200){
+			 			resolve();
+		 			} else {
+		 				reject();
+		 			}
+	        });
+	    });
+	    }
+  	}
+  	
   	 updateUserPrefferences(prefferedTypes) {
   		var that = this;
 	  	 	return new Promise(function(resolve, reject) {
@@ -129,6 +152,23 @@ export class UserService {
 	        });
 	    });
   	}
+  	
+  	getAllUsersData() {
+  		var that = this;
+  	 	return new Promise(function(resolve, reject) {
+	  	that.http.get<User[]>(that.getAllUrl, {
+		      headers: new HttpHeaders().set('Content-Type', 'application/json').set('Authorization', that.cookieService.get("jwt")),
+		      observe: 'response'
+		    }).subscribe( 
+		    (response : HttpResponse<User[]> ) => { 
+		    		if(response.status == 200 ){ 
+			  			resolve(response.body);
+			  		} else {
+			  			reject();
+			  		}
+	        });
+	    });
+  	}
 }
 
 export interface User {
@@ -136,5 +176,6 @@ export interface User {
   firstName: string;
   lastName: string;
   password: string;
+  grantedAuthoritiesList : [];
   prefferedLandmarkTypes : [];
 }

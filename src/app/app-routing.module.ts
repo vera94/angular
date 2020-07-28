@@ -5,13 +5,15 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { MapComponent } from './map/map.component';
 import { AdminComponent } from './admin/admin.component';
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
     { path: 'account', component: AccountComponent },
     { path: 'dashboard', component: DashboardComponent },
     { path: 'login' , component: LoginComponent},
     { path: 'map' , component: MapComponent},
-    { path: 'admin' , component: AdminComponent}
+    { path: 'admin' , component: AdminComponent},
+    { path: 'users' , component: UsersComponent}
 ];
 
 

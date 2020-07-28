@@ -20,6 +20,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { UsersComponent } from './users/users.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     LoginComponent,
     MapComponent,
     AdminComponent,
-    AddEntityDialog
+    AddEntityDialog,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
