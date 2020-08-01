@@ -54,6 +54,7 @@ export class AdminComponent implements OnInit {
  	var photo;
  	var text = "";
  	var stars: number[] = [1, 2, 3, 4, 5];
+ 	var selectedTypes: string[] = [];
  	
  	isEdit = !!landmarkData && !!landmarkData.id;
  	if(!isEdit){
@@ -61,11 +62,14 @@ export class AdminComponent implements OnInit {
  		text = "Add new landmark";
  	} else {
  		text = "Edit landmark";
+ 		landmarkData.types.forEach((type : any)=> {
+	      	selectedTypes.push(type.type);
+	      });
  	}
  	 
     const dialogRef = this.dialog.open(AddEntityDialog, {
       width: '250px',
-      data: { landmark : $.extend(true, {},landmarkData), photo : {}, dialogText : text },
+      data: { landmark : $.extend(true, {},landmarkData), photo : {}, dialogText : text , selectedTypes:selectedTypes},
       panelClass: 'rating-list'
     });
 
@@ -123,6 +127,10 @@ export class AddEntityDialog {
 	    this.dialogRef.close();
 	  }
 	  
+	  compareFn(option1,option2){
+    		return option1.type == option2.type;
+  	  }
+  	  
 	  photoInputChange(fileInputEvent: any) : void {
 	  	this.data.photo = fileInputEvent.target.files[0];
 	  }

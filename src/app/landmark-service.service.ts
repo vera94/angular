@@ -188,8 +188,7 @@ export interface Landmark {
   lat: number;
   lng: number;
   rating: number;
-  type: LandmarkType;
-  landmarkTypeName : string;
+  types: LandmarkType[];
   photo: any;
 }
 

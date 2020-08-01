@@ -63,7 +63,7 @@ export class MapComponent implements OnInit {
 	          	infowindow.open(map, this);
 	        });
     	}
-    	new AutocompleteDirectionsHandler(map, markers, that.linkInfo);
+    	new AutocompleteDirectionsHandler(map, markers, that.linkInfo, that.landmarkService);
     	console.log("2 data loaded true");
     	that.dataLoaded = true;
     });
@@ -76,7 +76,7 @@ export class MapComponent implements OnInit {
 
 }
 
-function AutocompleteDirectionsHandler(map, gmarkers, linkInfo) {
+function AutocompleteDirectionsHandler(map, gmarkers, linkInfo, landmarkService) {
   this.gmarkers = gmarkers;
   this.map = map;
   this.linkInfo = linkInfo;

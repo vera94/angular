@@ -10,7 +10,7 @@
   </mat-form-field>
 	<mat-form-field>
 	  <mat-label>Type</mat-label>
-	  <mat-select [formControl]="typeControl" required [(ngModel)]="data.landmark.type">
+	  <mat-select required [compareWith]="compareFn"  [(value)]="data.landmark.types" multiple>
 	    <mat-option *ngFor="let type of typesList" [value]="type">
 	      {{type.type}}
 	    </mat-option>

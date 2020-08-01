@@ -97,9 +97,10 @@ export class UserService {
 	    });
   	}
   	
-  	setUserRole(user: User, role : any) {
-  	if(!!user){
-  		user.grantedAuthoritiesList[0] = role;
+  	setUserRole(user: User, role : string) {
+  	if(!!user && !!user.grantedAuthoritiesList){
+  		let newAuthorities = [role];
+  		user.grantedAuthoritiesList = newAuthorities;
   		var that = this;
 	  	 	return new Promise(function(resolve, reject) {
 		  		that.http.put<any>(that.setRoleUrl, user, {
@@ -176,6 +177,6 @@ export interface User {
   firstName: string;
   lastName: string;
   password: string;
-  grantedAuthoritiesList : [];
+  grantedAuthoritiesList : string[];
   prefferedLandmarkTypes : [];
 }
