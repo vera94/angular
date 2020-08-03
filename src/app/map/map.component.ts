@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LandmarkServiceService, Landmark } from '../landmark-service.service';
+import { LandmarkServiceService, Landmark, RequestDto } from '../landmark-service.service';
 import {MatSliderModule} from '@angular/material/slider';
 import { MatProgressBarModule} from '@angular/material'
 declare const google: any;
@@ -13,7 +13,8 @@ export class MapComponent implements OnInit {
 	originInput = "";
 	destinationInput = "";
 	stopovers =5;
-	hotelStaus=0;
+	deviation = 20;
+	hotelStays=0;
 	includeHotels=false;
 	linkInfo;
 	
@@ -79,6 +80,7 @@ export class MapComponent implements OnInit {
 function AutocompleteDirectionsHandler(map, gmarkers, linkInfo, landmarkService) {
   this.gmarkers = gmarkers;
   this.map = map;
+  this.landmarkService =landmarkService;
   this.linkInfo = linkInfo;
   this.originPlaceId = null;
   this.destinationPlaceId = null;
@@ -128,7 +130,7 @@ AutocompleteDirectionsHandler.prototype.setupClickListener = function(
 
 AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(
     autocomplete, mode) {
-  var me = this;
+  var that = this;
   autocomplete.bindTo('bounds', this.map);
 
   autocomplete.addListener('place_changed', function() {
@@ -139,11 +141,11 @@ AutocompleteDirectionsHandler.prototype.setupPlaceChangedListener = function(
       return;
     }
     if (mode === 'ORIG') {
-      me.originPlaceId = place.place_id;
+      that.originPlaceId = place.place_id;
     } else {
-      me.destinationPlaceId = place.place_id;
+      that.destinationPlaceId = place.place_id;
     }
-    me.route();
+    that.route();
   });
 };
 
@@ -151,105 +153,64 @@ AutocompleteDirectionsHandler.prototype.route = function() {
   if (!this.originPlaceId || !this.destinationPlaceId) {
     return;
   }
-  var me = this;
-  var routeBoxer = google.maps.RouteBoxer;
-  var distance = 20; // km
-  var waypointsSet = new Set();
-
-  this.directionsService.route(
-      {
-        origin: {'placeId': this.originPlaceId},
-        destination: {'placeId': this.destinationPlaceId},
-        travelMode: this.travelMode
-      },
-      function(response, status) {
-        if (status === 'OK') {
-          var path = response.routes[0].overview_path;
-     	  var waypointsSet = drawBoxes(path, me.map , me.gmarkers);
-     	  var wpts = [];
-	      waypointsSet.forEach((wpt : any)=> {
+  var that = this;
+  var requestDto : RequestDto = {
+  origin : this.originPlaceId,
+	destination : this.destinationPlaceId,
+	travelMode : this.travelMode,
+	stopovers : (<HTMLInputElement>document.getElementById("stopovers")).valueAsNumber,
+	hotelStays : (<HTMLInputElement>document.getElementById("hotelStays")).valueAsNumber,
+	maxDeviationFromPath : (<HTMLInputElement>document.getElementById("deviation")).valueAsNumber,
+	email : ""
+	}
+	
+	var promise = that.landmarkService.findRoute(requestDto);
+		promise.then(function(data : any) {
+		var wpts = [];
+	      data.waypoints.forEach((wpt : any)=> {
 	      	wpts.push({
-	        location: wpt.getPosition(),
+	        location: {lat: wpt[0],lng: wpt[1]},
 	        stopover: true
 	      	});
 	      });
-        } else {
-          window.alert('Directions request failed due to ' + status);
-        }
+         that.directionsService.route(
+		  {
+			origin: {'placeId': that.originPlaceId},
+			destination: {'placeId': that.destinationPlaceId},
+			travelMode: that.travelMode,
+			waypoints : wpts,
+			optimizeWaypoints : true
+			
+		  },
+		  function(response, status) {
+			if (status === 'OK') {
+			  that.directionsRenderer.setDirections(response);
+			  var content = ""
+			  if(!!response){
+				response.routes[0].legs.forEach( leg => {
+					if(!!content) {
+						content = content + "\n\n";
+					}
+					content = content + leg.end_address+ "\n";
+					content = content + leg.distance.text + "\t" + leg.duration.text + "\n\n";
+					leg.steps.forEach( step => {
+						content = content + step.instructions + "\t" + step.distance.text + "\t" + step.duration.text + "\n";
+					});
+				});
+				content = content.replace(/<[^>]*>/g,'');
+			  }
+			  const blob = new Blob([content], {type: 'text/csv'});
+			  var downloadURL = window.URL.createObjectURL(blob);
+			  var link = <HTMLAnchorElement>document.getElementById('dwnldBtn');
+			  link.href = downloadURL;
+			  var legs =response.routes[0].legs;
+			  link.download = "Directions "+ legs[0].start_address + " " +legs[legs.length -1].end_address+  ".txt";
+			} else {
+			  window.alert('Directions request failed due to ' + status);
+			}
+		  });
         
-        me.directionsService.route(
-      {
-        origin: {'placeId': me.originPlaceId},
-        destination: {'placeId': me.destinationPlaceId},
-        travelMode: me.travelMode,
-        waypoints : wpts,
-        optimizeWaypoints : true
-        
-      },
-      function(response, status) {
-        if (status === 'OK') {
-          me.directionsRenderer.setDirections(response);
-          var content = ""
-          if(!!response){
-          	response.routes[0].legs.forEach( leg => {
-          		if(!!content) {
-          			content = content + "\n\n";
-          		}
-          	    content = content + leg.end_address+ "\n";
-          	    content = content + leg.distance.text + "\t" + leg.duration.text + "\n\n";
-	          	leg.steps.forEach( step => {
-	          		content = content + step.instructions + "\t" + step.distance.text + "\t" + step.duration.text + "\n";
-	         	});
-         	});
-         	content = content.replace(/<[^>]*>/g,'');
-          }
-          const blob = new Blob([content], {type: 'text/csv'});
-		  var downloadURL = window.URL.createObjectURL(blob);
-		  var link = <HTMLAnchorElement>document.getElementById('dwnldBtn');
-		  link.href = downloadURL;
-		  var legs =response.routes[0].legs;
-		  link.download = "Directions "+ legs[0].start_address + " " +legs[legs.length -1].end_address+  ".txt";
-        } else {
-          window.alert('Directions request failed due to ' + status);
-        }
-      });
-        
-        
-        
-      });
-      
-   
+		});
+  
 };
 
-function drawBoxes(path, map, markers) {
-  var waypoints = new Set();
-  var circles = new Array(path.length);
-  for (var i = 0; i < path.length; i++) {
-    circles[i] = new google.maps.Circle({
-      strokeColor: '#FF0000',
-        strokeOpacity: 0.01,
-        strokeWeight: 2,
-        fillColor: '#FF0000',
-        fillOpacity: 0.01,
-        center: path[i],
-        radius: 100000
-    });
-     
-  }
-   for (var j=0; j< markers.length; j++) {
-	   var include =false;
-	   for (var h=0; h< circles.length; h++) {
-          if (circles[h].contains(markers[j].getPosition())) {
-             include = true; 
-             break;
-         }
-       }
-	   if(include)
-			waypoints.add(markers[j]);
-	}
-	return waypoints;
-}
-
-google.maps.Circle.prototype.contains = function(latLng) {
-  return this.getBounds().contains(latLng) && google.maps.geometry.spherical.computeDistanceBetween(this.getCenter(), latLng) <= this.getRadius();
-}

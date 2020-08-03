@@ -16,6 +16,7 @@ export class LandmarkServiceService {
     getGmapTypesUrl = this.appUrl + '/types/gmap';
     addTypeUrl = this.appUrl + '/types';
     deleteTypeUrl = this.appUrl + '/types/delete/';
+    getDirectionsUrl = this.appUrl + '/directions';
     
 	constructor(private http: HttpClient, private cookieService: CookieService) { }
     
@@ -179,6 +180,20 @@ export class LandmarkServiceService {
 	            } );
         });
 	}
+	
+	findRoute(requestDto : RequestDto) {
+		var that = this;
+		return new Promise(function(resolve, reject) {that.http.post(that.getDirectionsUrl, requestDto, {
+		    	headers: new HttpHeaders().set('Authorization', that.cookieService.get("jwt"))})
+		    	.subscribe((result: any) =>{
+				    if(result){
+				      resolve(result);
+				    }
+				    else{
+				      reject()
+				    } });
+				    });
+	}
 }
 
 export interface Landmark {
@@ -202,4 +217,12 @@ export interface LandmarkType {
   
 }
 
-
+export interface RequestDto {
+	origin : string;
+	destination : string;
+	travelMode : string;
+	stopovers : number;
+	hotelStays : number;
+	email : string;
+	maxDeviationFromPath : number;
+}

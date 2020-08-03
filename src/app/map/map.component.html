@@ -16,7 +16,13 @@
 	<div>
 	<mat-form-field class="numberInput" >
  	<mat-label>Maximum stopovers : {{stopovers}} </mat-label>
-    <input matInput  type="number" [(ngModel)]="stopovers">
+    <input matInput id="stopovers" type="number" [(ngModel)]="stopovers">
+    </mat-form-field>
+  </div>
+  	<div>
+<mat-form-field class="numberInput" >
+ 	<mat-label>Maximum deviation : {{deviation}} </mat-label>
+    <input matInput id="deviation" type="number" [(ngModel)]="deviation">
     </mat-form-field>
   </div>
     <div id="mode-selector">
@@ -36,8 +42,8 @@
         <mat-slide-toggle  [(ngModel)]="includeHotels"></mat-slide-toggle>
 
 	<mat-form-field class="rightInput" >
- 	<mat-label>Hotel stays : {{hotelStaus}} </mat-label>
-    <input matInput  type="number" [(ngModel)]="hotelStaus" disabled={{!includeHotels}} >
+ 	<mat-label>Hotel stays : {{hotelStays}} </mat-label>
+    <input matInput  type="number" id="hotelStays" [(ngModel)]="hotelStays" disabled={{!includeHotels}} >
     </mat-form-field>
   </div>
   </mat-card-content>
