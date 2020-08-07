@@ -2,13 +2,15 @@
         margin: 10px;
         padding : 10px;
         background-color: #fff;
-        width:90%	
+        width:90%;	
       }
 
 .card {
 		margin: 10px;
-        padding : 10px;
-        width: 90%	
+        padding : 20px;
+        width: 41.7%;
+        height: 40%;
+        float: left;
 }
 
 .rightInput {
@@ -18,4 +20,25 @@
 
 .numberInput {
 	width: 10%;
+}
+
+.iconBtn {
+	margin: 3px;
+ 	position:relative;
+ 	border-style: none;
+ 	background-color: transparent;
+ 	outline:none;
+}
+
+.fviconBtn {
+	margin: 3px;
+ 	border-style: dotted;
+ 	background-color: transparent;
+ 	outline:none;
+}
+
+button.fviconBtn:hover {
+	margin: 3px;
+ 	background-color: transparent;
+ 	color: #FF1493 !important; 
 }

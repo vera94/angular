@@ -43,7 +43,6 @@ export class AccountComponent implements OnInit {
     this.treeControl = new FlatTreeControl<ExampleFlatNode>(this.getLevel, this.isExpandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
     this.checklistSelection = new SelectionModel<ExampleFlatNode>(true /* multiple */);
-	console.log("constructor 1 ");
 
     var typesPromise = this.landmarkService.getLandmarkTypes(this.typesList);
 		typesPromise.then(function(data : any[]) {
@@ -81,23 +80,23 @@ export class AccountComponent implements OnInit {
      }
      
      getParentNode(node: ExampleFlatNode): ExampleFlatNode | null {
-    const currentLevel = this.getLevel(node);
-
-    if (currentLevel < 1) {
-      return null;
-    }
-
-    const startIndex = this.treeControl.dataNodes.indexOf(node) - 1;
-
-    for (let i = startIndex; i >= 0; i--) {
-      const currentNode = this.treeControl.dataNodes[i];
-
-      if (this.getLevel(currentNode) < currentLevel) {
-        return currentNode;
-      }
-    }
-    return null;
-  }
+	    const currentLevel = this.getLevel(node);
+	
+	    if (currentLevel < 1) {
+	      return null;
+	    }
+	
+	    const startIndex = this.treeControl.dataNodes.indexOf(node) - 1;
+	
+	    for (let i = startIndex; i >= 0; i--) {
+	      const currentNode = this.treeControl.dataNodes[i];
+	
+	      if (this.getLevel(currentNode) < currentLevel) {
+	        return currentNode;
+	      }
+	    }
+	    return null;
+	  }
 getLevel = (node: ExampleFlatNode) => node.level;
 
   isExpandable = (node: ExampleFlatNode) => node.expandable;

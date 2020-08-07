@@ -6,6 +6,7 @@ import { LoginComponent } from './login/login.component';
 import { MapComponent } from './map/map.component';
 import { AdminComponent } from './admin/admin.component';
 import { UsersComponent } from './users/users.component';
+import { FavoritesComponent } from './favorites/favorites.component';
 
 const routes: Routes = [
     { path: 'account', component: AccountComponent },
@@ -13,7 +14,8 @@ const routes: Routes = [
     { path: 'login' , component: LoginComponent},
     { path: 'map' , component: MapComponent},
     { path: 'admin' , component: AdminComponent},
-    { path: 'users' , component: UsersComponent}
+    { path: 'users' , component: UsersComponent},
+    { path: 'favorites' , component: FavoritesComponent}
 ];
 
 

@@ -21,6 +21,7 @@ import {MatSliderModule} from '@angular/material/slider';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { UsersComponent } from './users/users.component';
+import { FavoritesComponent } from './favorites/favorites.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { UsersComponent } from './users/users.component';
     MapComponent,
     AdminComponent,
     AddEntityDialog,
-    UsersComponent
+    UsersComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,
