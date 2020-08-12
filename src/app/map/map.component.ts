@@ -192,7 +192,7 @@ export class MapComponent implements OnInit {
     	that.dataLoaded = true;
     	var autObj = new AutocompleteDirectionsHandler(map, markers, that.linkInfo, that.landmarkService);
     	that.route.params.subscribe(params => {
-	  		if( !!params) {
+	  		if( !!params && Object.keys(params).length > 0) {
 		    	that.stopovers = params['stopovers'];
 				that.deviation = params['deviation'];
 				that.hotelStays= params['hotelStays'];
