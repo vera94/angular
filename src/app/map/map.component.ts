@@ -6,6 +6,7 @@ import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {SelectionModel} from '@angular/cdk/collections';
 import { UserService, User } from '../user.service';
 import {FlatTreeControl} from '@angular/cdk/tree';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 declare const google: any;
 
 @Component({
@@ -29,7 +30,7 @@ export class MapComponent implements OnInit {
   	typesList  = [];
   	
 	
-  constructor(private userService : UserService, private landmarkService : LandmarkServiceService) {
+  constructor( private route: ActivatedRoute, private userService : UserService, private landmarkService : LandmarkServiceService) {
  	 var that = this;
   		  	this.treeFlattener = new MatTreeFlattener(this._transformer, this.getLevel,
       this.isExpandable, this.getChildren);
@@ -187,9 +188,21 @@ export class MapComponent implements OnInit {
 	          	infowindow.open(map, this);
 	        });
     	}
-    	new AutocompleteDirectionsHandler(map, markers, that.linkInfo, that.landmarkService);
     	console.log("2 data loaded true");
     	that.dataLoaded = true;
+    	var autObj = new AutocompleteDirectionsHandler(map, markers, that.linkInfo, that.landmarkService);
+    	that.route.params.subscribe(params => {
+	  		if( !!params) {
+		    	that.stopovers = params['stopovers'];
+				that.deviation = params['deviation'];
+				that.hotelStays= params['hotelStays'];
+				autObj.originPlaceId = params['origin'];
+		  		autObj.destinationPlaceId = params['destination'];
+		  		console.log("asd");
+		  		autObj.route();
+		    }
+		  });
+		  
     });
   }
   downloadDirections() {
@@ -290,6 +303,7 @@ AutocompleteDirectionsHandler.prototype.route = function() {
   }
   var that = this;
   var requestDto : RequestDto = {
+  id: 0,
   origin : this.originPlaceId,
 	destination : this.destinationPlaceId,
 	travelMode : this.travelMode,
@@ -335,6 +349,11 @@ AutocompleteDirectionsHandler.prototype.route = function() {
 				});
 				content = content.replace(/<[^>]*>/g,'');
 			  }
+			  if(!(<HTMLInputElement>document.getElementById("origin-input")).value){
+			  	(<HTMLInputElement>document.getElementById("origin-input")).value = response.routes[0].legs[0].start_address;
+			  	(<HTMLInputElement>document.getElementById("destination-input")).value = response.routes[0].legs[response.routes[0].legs.length - 1].end_address;
+			  }
+			  
 			  const blob = new Blob([content], {type: 'text/csv'});
 			  var downloadURL = window.URL.createObjectURL(blob);
 			  var link = <HTMLAnchorElement>document.getElementById('dwnldBtn');

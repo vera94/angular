@@ -19,6 +19,7 @@ export class LandmarkServiceService {
     getDirectionsUrl = this.appUrl + '/directions';
     saveSearchUrl = this.getDirectionsUrl + '/request';
     getSavedSearchesUrl = this.getDirectionsUrl + '/requests';
+    deleteSearchUrl = this.getDirectionsUrl + '/request/';
     
 	constructor(private http: HttpClient, private cookieService: CookieService) { }
     
@@ -183,6 +184,22 @@ export class LandmarkServiceService {
         });
 	}
 	
+	deleteSearch(id) {
+		var that = this;
+	  	 	return new Promise(function(resolve, reject) {
+			     that.http.delete(that.deleteSearchUrl + id, {
+			      headers: new HttpHeaders({'Content-Type': 'application/json'}).set('Authorization', that.cookieService.get("jwt")),
+			      observe: 'response'
+			    }).subscribe((data : HttpResponse<any>) => {
+		            	if(data){
+					      resolve();
+					    }
+					    else{
+					      reject()
+				        }
+		            } );
+	        });
+	}
 	findRoute(requestDto : RequestDto) {
 		var that = this;
 		return new Promise(function(resolve, reject) {that.http.post(that.getDirectionsUrl, requestDto, {
@@ -219,6 +236,7 @@ export class LandmarkServiceService {
 		      observe: 'response'
 		     }).subscribe((response : HttpResponse<RequestDto[]>) => {
 		             resolve(response.body);
+		             console.log("Asd");
 		            } );
         });
 	}
@@ -246,6 +264,7 @@ export interface LandmarkType {
 }
 
 export interface RequestDto {
+	id : number;
 	name : string;
 	origin : string;
 	destination : string;

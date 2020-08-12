@@ -24,13 +24,13 @@
   <ng-container matColumnDef="deleteBtn">
 	  <th mat-header-cell *matHeaderCellDef> Delete </th>
 	  <td mat-cell *matCellDef="let data">
-	   <button class="btn" >Delete</button>
+	   <button class="btn" (click)="deleteRequest(data)">Delete</button>
   </td>
   </ng-container>
     <ng-container matColumnDef="searchBtn">
 	  <th mat-header-cell *matHeaderCellDef> Search </th>
 	  <td mat-cell *matCellDef="let data">
-	   <button class="btn" >Search</button>
+	   <button class="btn" (click)="search(data)">Search</button>
   </td>
   </ng-container>
 
