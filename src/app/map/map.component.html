@@ -1,87 +1,82 @@
   <mat-progress-bar mode="query" *ngIf="(dataLoaded == false)"></mat-progress-bar>
   <mat-card class="card" [ngStyle]="{'display': dataLoaded ? 'block' : 'none'}">
-  <mat-card-title>Search options : </mat-card-title>
-  <mat-card-content >
-  <div>
-  <mat-form-field>
-    <mat-label>Origin : </mat-label>
-    <input matInput id="origin-input" class="controls" type="text" [(ngModel)]="origin"
-            placeholder="Enter an origin location">
-  </mat-form-field>
-  <mat-form-field >
-    <mat-label>Destination : </mat-label>
-    <input matInput id="destination-input" class="controls" type="text"
-    placeholder="Enter a destination location" [(ngModel)]="destination">
-  </mat-form-field>
-  <button mat-icon-button class="fviconBtn" id="fviconBtn">Save<mat-icon>favorite</mat-icon></button>
-  </div>
-	<div>
-	<mat-form-field class="numberInput" >
- 	<mat-label>Maximum stopovers : {{stopovers}} </mat-label>
-    <input matInput id="stopovers" type="number" [(ngModel)]="stopovers">
-    </mat-form-field>
-  </div>
-  	<div>
-<mat-form-field class="numberInput" >
- 	<mat-label>Maximum deviation : {{deviation}} </mat-label>
-    <input matInput id="deviation" type="number" [(ngModel)]="deviation">
-    </mat-form-field>
-  </div>
-    <div id="mode-selector">
-    <mat-label>Travel type :</mat-label>
-   		  <input type="radio" name="type" id="changemode-driving"  checked="checked">
-          <label for="changemode-driving">Driving</label>
-          
-          <input type="radio" name="type" id="changemode-walking">
-          <label for="changemode-walking">Walking</label>
+    <mat-card-title>Search options : </mat-card-title>
+    <mat-card-content>
+      <div>
+        <mat-form-field>
+          <mat-label>Origin : </mat-label>
+          <input matInput id="origin-input" class="controls" type="text" [(ngModel)]="origin" placeholder="Enter an origin location">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Destination : </mat-label>
+          <input matInput id="destination-input" class="controls" type="text" placeholder="Enter a destination location" [(ngModel)]="destination">
+        </mat-form-field>
+        <button mat-icon-button class="fviconBtn" id="fviconBtn">Save<mat-icon>favorite</mat-icon></button>
+      </div>
+      <div>
+        <mat-form-field class="numberInput">
+          <mat-label>Maximum stopovers : {{stopovers}} </mat-label>
+          <input matInput id="stopovers" type="number" [(ngModel)]="stopovers">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="numberInput">
+          <mat-label>Maximum deviation : {{deviation}} </mat-label>
+          <input matInput id="deviation" type="number" [(ngModel)]="deviation">
+        </mat-form-field>
+      </div>
+      <div id="mode-selector">
+        <mat-label>Travel type :</mat-label>
+        <input type="radio" name="type" id="changemode-driving" checked="checked">
+        <label for="changemode-driving">Driving</label>
 
-          <input type="radio" name="type" id="changemode-transit">
-          <label for="changemode-transit">Transit</label>
+        <input type="radio" name="type" id="changemode-walking">
+        <label for="changemode-walking">Walking</label>
 
-        </div>
-        <div>
+        <input type="radio" name="type" id="changemode-transit">
+        <label for="changemode-transit">Transit</label>
+
+      </div>
+      <div>
         <mat-label>Include stays </mat-label>
-        <mat-slide-toggle  [(ngModel)]="includeHotels"></mat-slide-toggle>
+        <mat-slide-toggle [(ngModel)]="includeHotels"></mat-slide-toggle>
 
-	<mat-form-field class="rightInput" >
- 	<mat-label>Hotel stays : {{hotelStays}} </mat-label>
-    <input matInput  type="number" id="hotelStays" [(ngModel)]="hotelStays" disabled={{!includeHotels}} >
-    </mat-form-field>
-  </div>
-  </mat-card-content>
-</mat-card>
-  <mat-card class="card" [ngStyle]="{'display': dataLoaded ? 'block' : 'none'}">
-  <mat-card-title>Preffered Landmark Types : </mat-card-title>
-  <mat-card-content >
-  <mat-progress-bar mode="query" *ngIf="(typesLoaded && userLoaded) == false"></mat-progress-bar>
-    
-    <div class="account-container" *ngIf="(typesLoaded && userLoaded) == true">
-	<mat-tree [dataSource]="dataSourcePreferences" [treeControl]="treeControl">
-	<!-- This is the tree node template for leaf nodes --> 
-	<mat-tree-node
-		*matTreeNodeDef="let node" matTreeNodePadding> <!-- use a disabled button to provide padding for tree leaf -->
-	<button mat-icon-button disabled class="iconBtn"></button>
-	<mat-checkbox class="checklist-leaf-node"
-                  [checked]="checklistSelection.isSelected(node)"
-                  (change)="todoLeafItemSelectionToggle(node)">{{node.type}}</mat-checkbox>
-	</mat-tree-node> <!-- This is the tree node template for expandable nodes -->
-	<mat-tree-node *matTreeNodeDef="let node;when: hasChild"
-		matTreeNodePadding>
-	<button mat-icon-button matTreeNodeToggle  class="iconBtn"
-		[attr.aria-label]="'toggle ' + node.type">
-		<mat-icon class="mat-icon-rtl-mirror">
-		{{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}} </mat-icon>
-	</button>
-	    <mat-checkbox [checked]="descendantsAllSelected(node)" 
-                  (change)="todoItemSelectionToggle(node)">{{node.type}}</mat-checkbox>
- 
-	</mat-tree-node> 
-	</mat-tree>
-
-</div>
-  </mat-card-content>
+        <mat-form-field class="rightInput">
+          <mat-label>Hotel stays : {{hotelStays}} </mat-label>
+          <input matInput type="number" id="hotelStays" [(ngModel)]="hotelStays" disabled={{!includeHotels}}>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
   </mat-card>
-<div id="googleMap" style="width:90%;height:380px;padding:10px;margin:10px;"></div>
+  <mat-card class="card" [ngStyle]="{'display': dataLoaded ? 'block' : 'none'}">
+    <mat-card-title>Preffered Landmark Types : </mat-card-title>
+    <mat-card-content>
+      <mat-progress-bar mode="query" *ngIf="(typesLoaded && userLoaded) == false"></mat-progress-bar>
 
-<div id="right-panel" class="right-panel">
-<a id="dwnldBtn">Download directions</a></div>
+      <div class="account-container" *ngIf="(typesLoaded && userLoaded) == true">
+        <mat-tree [dataSource]="dataSourcePreferences" [treeControl]="treeControl">
+          <!-- This is the tree node template for leaf nodes -->
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+            <!-- use a disabled button to provide padding for tree leaf -->
+            <button mat-icon-button disabled class="iconBtn"></button>
+            <mat-checkbox class="checklist-leaf-node" [checked]="checklistSelection.isSelected(node)" (change)="todoLeafItemSelectionToggle(node)">{{node.type}}</mat-checkbox>
+          </mat-tree-node> <!-- This is the tree node template for expandable nodes -->
+          <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+            <button mat-icon-button matTreeNodeToggle class="iconBtn" [attr.aria-label]="'toggle ' + node.type">
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+            </button>
+            <mat-checkbox [checked]="descendantsAllSelected(node)" (change)="todoItemSelectionToggle(node)">{{node.type}}</mat-checkbox>
+
+          </mat-tree-node>
+        </mat-tree>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <div id="googleMap" style="width:90%;height:380px;padding:10px;margin:10px;"></div>
+
+  <div id="right-panel" class="right-panel">
+    <a id="dwnldBtn">Download directions</a>
+  </div>

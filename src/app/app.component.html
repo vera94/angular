@@ -1,27 +1,27 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <mat-sidenav-container class="example-container">
-    <mat-sidenav mode="side" opened>
-        <mat-nav-list >
-            <a mat-list-item routerLink="/">Home</a>
-            <a mat-list-item routerLink="login" [ngStyle]="{'display':isLoggedUser ? 'none' : 'inline'}">Log in</a>
-            <div [ngStyle]="{'visibility':isLoggedUser ? 'visible' : 'hidden'}">
-            <a mat-list-item routerLink="account">Account</a>
-            <a mat-list-item routerLink="/admin">Landmarks</a>
-            <a mat-list-item routerLink="/dashboard">Landmark Types</a>
-            <a mat-list-item routerLink="/users" [ngStyle]="{'display':isAdminUser ? 'inline' : 'none'}">Users</a>
-            <a mat-list-item routerLink="/map">Map</a>
-            <a mat-list-item routerLink="/favorites">Favorites</a>
-            </div>
-        </mat-nav-list>
-    </mat-sidenav>
-    <mat-sidenav-content class="sidenavContent">
-        <mat-toolbar class="greeting">
-            <div class="greeting">
-                <h1 align="center" >Welcome to Travel Assistant!</h1>
-           		<button mat-raised-button (click)="logOut()" class="login-button"  [ngStyle]="{'visibility':isLoggedUser ? 'visible' : 'hidden'}">Log Out</button>
-            </div>
-        </mat-toolbar>
+  <mat-sidenav mode="side" opened>
+    <mat-nav-list>
+      <a mat-list-item routerLink="/">Home</a>
+      <a mat-list-item routerLink="login" [ngStyle]="{'display':isLoggedUser ? 'none' : 'inline'}">Log in</a>
+      <div [ngStyle]="{'visibility':isLoggedUser ? 'visible' : 'hidden'}">
+        <a mat-list-item routerLink="account">Account</a>
+        <a mat-list-item routerLink="/admin">Landmarks</a>
+        <a mat-list-item routerLink="/dashboard">Landmark Types</a>
+        <a mat-list-item routerLink="/users" [ngStyle]="{'display':isAdminUser ? 'inline' : 'none'}">Users</a>
+        <a mat-list-item routerLink="/map">Map</a>
+        <a mat-list-item routerLink="/favorites">Favorites</a>
+      </div>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content class="sidenavContent">
+    <mat-toolbar class="greeting">
+      <div class="greeting">
+        <h1 align="center">Welcome to Travel Assistant!</h1>
+        <button mat-raised-button (click)="logOut()" class="login-button" [ngStyle]="{'visibility':isLoggedUser ? 'visible' : 'hidden'}">Log Out</button>
+      </div>
+    </mat-toolbar>
 
-        <router-outlet></router-outlet>
-    </mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
 </mat-sidenav-container>

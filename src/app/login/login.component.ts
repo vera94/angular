@@ -1,75 +1,75 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators, FormBuilder, FormGroup} from '@angular/forms';
+import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { UserService, User } from '../user.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
-    selector: 'app-login',
-    templateUrl: './login.component.html',
-    styleUrls: ['./login.component.css']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-	user  = { email: "", password:""};
-	registerForm : FormGroup;
-    panelOpenState = false;
-    hide = true;
-    selectedCountry;
-    mismatch = false;
-    email;
-    password;
-    confirmPassword;
-    
+  user = { email: "", password: "" };
+  registerForm: FormGroup;
+  panelOpenState = false;
+  hide = true;
+  selectedCountry;
+  mismatch = false;
+  email;
+  password;
+  confirmPassword;
 
-    constructor(private formBuilder: FormBuilder, private userService : UserService, private router : Router) { }
-    
-    ngOnInit() {
-	    this.registerForm = this.formBuilder.group({
-	            email: ['', [Validators.required, Validators.email]],
-	            password: ['', [Validators.required, Validators.minLength(8)]],
-	            confirmPassword: ['', [Validators.required]]
-	        },{ validators: this.passwordMatchValidator });
-    }
-   
-    
-	passwordMatchValidator(fr :FormControl) {
-		return fr.get("password").value === fr.get("confirmPassword").value ? null : {'mismatch' : true};
-	} 
-	
-    getErrorMessage() {
-        return this.registerForm.controls.email.hasError('required') ? 'You must enter a value' :
-            this.registerForm.controls.email.hasError('email') ? 'Not a valid email' :
-                '';
-    }
 
-    getErrorPwdMessage() {
-        return this.registerForm.controls.password.hasError('required') ? 'You must enter a value' :
-            this.registerForm.controls.password.hasError('minlength') ? 'You must enter at least 8 symbols' :
-                '';
-    }
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) { }
 
-    getErrorConfirmPwdMessage() {
-        return this.registerForm.controls.confirmPassword.hasError('required') ? 'You must enter a value' :
-            this.registerForm.hasError('mismatch') ? 'Passwords mismatch' :
-                '';
-    }
+  ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirmPassword: ['', [Validators.required]]
+    }, { validators: this.passwordMatchValidator });
+  }
 
-	submit() {
-		var that = this;
-		  var newUser = this.registerForm.value;
-		  delete newUser.confirmPassword;
-		  var promise = this.userService.signUp(newUser).then(function(){
-		  		that.registerForm.reset();
-		  });
-	}
-	
-	logIn(){
-		var that = this;
-		 var promise = this.userService.logIn(this.user.email, this.user.password).then(function(){
-		  		that.user.email = "";
-		  		that.user.password = "";
-		  		that.router.navigate(['']);
-		  });
-	}
-	
-	
+
+  passwordMatchValidator(fr: FormControl) {
+    return fr.get("password").value === fr.get("confirmPassword").value ? null : { 'mismatch': true };
+  }
+
+  getErrorMessage() {
+    return this.registerForm.controls.email.hasError('required') ? 'You must enter a value' :
+      this.registerForm.controls.email.hasError('email') ? 'Not a valid email' :
+        '';
+  }
+
+  getErrorPwdMessage() {
+    return this.registerForm.controls.password.hasError('required') ? 'You must enter a value' :
+      this.registerForm.controls.password.hasError('minlength') ? 'You must enter at least 8 symbols' :
+        '';
+  }
+
+  getErrorConfirmPwdMessage() {
+    return this.registerForm.controls.confirmPassword.hasError('required') ? 'You must enter a value' :
+      this.registerForm.hasError('mismatch') ? 'Passwords mismatch' :
+        '';
+  }
+
+  submit() {
+    var that = this;
+    var newUser = this.registerForm.value;
+    delete newUser.confirmPassword;
+    var promise = this.userService.signUp(newUser).then(function() {
+      that.registerForm.reset();
+    });
+  }
+
+  logIn() {
+    var that = this;
+    var promise = this.userService.logIn(this.user.email, this.user.password).then(function() {
+      that.user.email = "";
+      that.user.password = "";
+      that.router.navigate(['']);
+    });
+  }
+
+
 }

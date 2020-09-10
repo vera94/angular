@@ -1,59 +1,55 @@
  <mat-card class="card">
- <mat-card-title>Account Information : </mat-card-title>	
-  <mat-card-content >
-  	<mat-progress-bar mode="query" *ngIf="userLoaded == false"></mat-progress-bar>
-    <div class="account-container" *ngIf="userLoaded">
-        <mat-form-field>
-            <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="currentUser.email">
-            <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" [(ngModel)]="currentUser.password">
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Repeat your password" [type]="hide ? 'password' : 'text'" >
-            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="First name" [(ngModel)]="currentUser.firstName">
-        </mat-form-field>
-        <mat-form-field>
-            <input matInput placeholder="Last name" [(ngModel)]="currentUser.lastName">
-        </mat-form-field>
-    </div>
-    <button class="btn btn-default" mat-button (click)="updateUser()">Save</button>
-  </mat-card-content>
-  </mat-card>
-   <mat-card class="card">
+   <mat-card-title>Account Information : </mat-card-title>
+   <mat-card-content>
+     <mat-progress-bar mode="query" *ngIf="userLoaded == false"></mat-progress-bar>
+     <div class="account-container" *ngIf="userLoaded">
+       <mat-form-field>
+         <input matInput placeholder="Enter your email" [formControl]="email" required [(ngModel)]="currentUser.email">
+         <mat-error *ngIf="email.invalid">{{getErrorMessage()}}</mat-error>
+       </mat-form-field>
+       <mat-form-field>
+         <input matInput placeholder="Enter your password" [type]="hide ? 'password' : 'text'" [(ngModel)]="currentUser.password">
+         <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+       </mat-form-field>
+       <mat-form-field>
+         <input matInput placeholder="Repeat your password" [type]="hide ? 'password' : 'text'">
+         <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+       </mat-form-field>
+       <mat-form-field>
+         <input matInput placeholder="First name" [(ngModel)]="currentUser.firstName">
+       </mat-form-field>
+       <mat-form-field>
+         <input matInput placeholder="Last name" [(ngModel)]="currentUser.lastName">
+       </mat-form-field>
+     </div>
+     <button class="btn btn-default" mat-button (click)="updateUser()">Save</button>
+   </mat-card-content>
+ </mat-card>
+ <mat-card class="card">
    <mat-card-title>Preffered Landmark Types : </mat-card-title>
-  <mat-card-content >
-  	<mat-progress-bar mode="query" *ngIf="(typesLoaded && userLoaded) == false"></mat-progress-bar>
-    
-    <div class="account-container" *ngIf="(typesLoaded && userLoaded) == true">
-	<mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-	<!-- This is the tree node template for leaf nodes --> 
-	<mat-tree-node
-		*matTreeNodeDef="let node" matTreeNodePadding> <!-- use a disabled button to provide padding for tree leaf -->
-	<button mat-icon-button disabled class="iconBtn"></button>
-	<mat-checkbox class="checklist-leaf-node"
-                  [checked]="checklistSelection.isSelected(node)"
-                  (change)="todoLeafItemSelectionToggle(node)">{{node.type}}</mat-checkbox>
-	</mat-tree-node> <!-- This is the tree node template for expandable nodes -->
-	<mat-tree-node *matTreeNodeDef="let node;when: hasChild"
-		matTreeNodePadding>
-	<button mat-icon-button matTreeNodeToggle  class="iconBtn"
-		[attr.aria-label]="'toggle ' + node.type">
-		<mat-icon class="mat-icon-rtl-mirror">
-		{{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}} </mat-icon>
-	</button>
-	    <mat-checkbox [checked]="descendantsAllSelected(node)" 
-                  (change)="todoItemSelectionToggle(node)">{{node.type}}</mat-checkbox>
- 
-	</mat-tree-node> 
-	</mat-tree>
+   <mat-card-content>
+     <mat-progress-bar mode="query" *ngIf="(typesLoaded && userLoaded) == false"></mat-progress-bar>
 
-</div>
-    <button class="btn btn-default" mat-button (click)="updatePrefferdTypes()">Save</button>
-  </mat-card-content>
-  </mat-card>
+     <div class="account-container" *ngIf="(typesLoaded && userLoaded) == true">
+       <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+         <!-- This is the tree node template for leaf nodes -->
+         <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+           <!-- use a disabled button to provide padding for tree leaf -->
+           <button mat-icon-button disabled class="iconBtn"></button>
+           <mat-checkbox class="checklist-leaf-node" [checked]="checklistSelection.isSelected(node)" (change)="todoLeafItemSelectionToggle(node)">{{node.type}}</mat-checkbox>
+         </mat-tree-node> <!-- This is the tree node template for expandable nodes -->
+         <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+           <button mat-icon-button matTreeNodeToggle class="iconBtn" [attr.aria-label]="'toggle ' + node.type">
+             <mat-icon class="mat-icon-rtl-mirror">
+               {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+             </mat-icon>
+           </button>
+           <mat-checkbox [checked]="descendantsAllSelected(node)" (change)="todoItemSelectionToggle(node)">{{node.type}}</mat-checkbox>
+
+         </mat-tree-node>
+       </mat-tree>
+
+     </div>
+     <button class="btn btn-default" mat-button (click)="updatePrefferdTypes()">Save</button>
+   </mat-card-content>
+ </mat-card>

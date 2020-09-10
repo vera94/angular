@@ -1,7 +1,7 @@
-import { Component , ChangeDetectorRef, ChangeDetectionStrategy, ViewChild} from '@angular/core';
+import { Component, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { UserService, User } from './user.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -10,25 +10,25 @@ import {Router} from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
-title = 'angular';
+  title = 'angular';
   isLoggedUser = !!this.cookieService.get("email");
   isAdminUser;
-	constructor(private cookieService: CookieService, public changeDetectorRef :ChangeDetectorRef, 
-		private userService : UserService , private router : Router) {
-		
-  this.isAdminUser = !!this.cookieService.get("role") && this.cookieService.get("role") == "ADMIN";
+  constructor(private cookieService: CookieService, public changeDetectorRef: ChangeDetectorRef,
+    private userService: UserService, private router: Router) {
+
+    this.isAdminUser = !!this.cookieService.get("role") && this.cookieService.get("role") == "ADMIN";
     setInterval(() => {
       this.isLoggedUser = !!this.cookieService.get("email");
       // require view to be updated
       this.changeDetectorRef.markForCheck();
     }, 1000);
   }
-  
-  logOut(){
-  	var that = this;
-		 var promise = this.userService.logOut().then(function(){
-		  		that.router.navigate(['']);
-		  });
-	}
-	
+
+  logOut() {
+    var that = this;
+    var promise = this.userService.logOut().then(function() {
+      that.router.navigate(['']);
+    });
+  }
+
 }

@@ -8,30 +8,30 @@
     <th mat-header-cell *matHeaderCellDef> Travel Mode </th>
     <td mat-cell *matCellDef="let data"> {{data.travelMode}} </td>
   </ng-container>
-  
+
   <ng-container matColumnDef="stopovers">
     <th mat-header-cell *matHeaderCellDef> Stopovers </th>
     <td mat-cell *matCellDef="let data"> {{data.stopovers}} </td>
   </ng-container>
-    <ng-container matColumnDef="hotelStays">
+  <ng-container matColumnDef="hotelStays">
     <th mat-header-cell *matHeaderCellDef> Hotel stays </th>
     <td mat-cell *matCellDef="let data"> {{data.hotelStays}} </td>
   </ng-container>
-   <ng-container matColumnDef="maxDeviationFromPath">
+  <ng-container matColumnDef="maxDeviationFromPath">
     <th mat-header-cell *matHeaderCellDef> Maximum deviation from path </th>
     <td mat-cell *matCellDef="let data"> {{data.maxDeviationFromPath}} </td>
   </ng-container>
   <ng-container matColumnDef="deleteBtn">
-	  <th mat-header-cell *matHeaderCellDef> Delete </th>
-	  <td mat-cell *matCellDef="let data">
-	   <button class="btn" (click)="deleteRequest(data)">Delete</button>
-  </td>
+    <th mat-header-cell *matHeaderCellDef> Delete </th>
+    <td mat-cell *matCellDef="let data">
+      <button class="btn" (click)="deleteRequest(data)">Delete</button>
+    </td>
   </ng-container>
-    <ng-container matColumnDef="searchBtn">
-	  <th mat-header-cell *matHeaderCellDef> Search </th>
-	  <td mat-cell *matCellDef="let data">
-	   <button class="btn" (click)="search(data)">Search</button>
-  </td>
+  <ng-container matColumnDef="searchBtn">
+    <th mat-header-cell *matHeaderCellDef> Search </th>
+    <td mat-cell *matCellDef="let data">
+      <button class="btn" (click)="search(data)">Search</button>
+    </td>
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

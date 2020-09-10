@@ -8,28 +8,38 @@
     <button mat-icon-button disabled></button>
     {{node.type}}
     <div [ngStyle]="{'display':isAdminUser ? 'inline' : 'none'}">
-    <button mat-icon-button (click)="addNewItem(node)"><mat-icon>add</mat-icon></button>
-    <button mat-icon-button (click)="editItem(node)"><mat-icon>edit</mat-icon></button>
-    <button mat-icon-button (click)="deleteItem(node)"><mat-icon>delete</mat-icon></button>
+      <button mat-icon-button (click)="addNewItem(node)">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button (click)="editItem(node)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteItem(node)">
+        <mat-icon>delete</mat-icon>
+      </button>
     </div>
   </mat-tree-node>
   <!-- This is the tree node template for expandable nodes -->
   <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
-    <button mat-icon-button matTreeNodeToggle
-            [attr.aria-label]="'toggle ' + node.type">
+    <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.type">
       <mat-icon class="mat-icon-rtl-mirror">
         {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
       </mat-icon>
     </button>
     {{node.type}}
     <div [ngStyle]="{'display':isAdminUser ? 'inline' : 'none'}">
-    <button mat-icon-button (click)="addNewItem(node)"><mat-icon>add</mat-icon></button>
-    <button mat-icon-button (click)="editItem(node)"><mat-icon>edit</mat-icon></button>
-    <button mat-icon-button (click)="deleteItem(node.id)"><mat-icon>delete</mat-icon></button>
+      <button mat-icon-button (click)="addNewItem(node)">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button (click)="editItem(node)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="deleteItem(node.id)">
+        <mat-icon>delete</mat-icon>
+      </button>
     </div>
   </mat-tree-node>
 </mat-tree>
-
 <!--  mat-grid-list cols="4" rowHeight="100px">
   <mat-grid-tile
       *ngFor="let tile of tiles"
