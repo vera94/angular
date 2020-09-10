@@ -5,6 +5,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { LandmarkServiceService, Landmark, LandmarkType } from '../landmark-service.service';
+import { CookieService } from 'ngx-cookie-service';
 
 export interface Tile {
   color: string;
@@ -27,6 +28,7 @@ export class DashboardComponent implements OnInit {
 	typesList = [];
 	gmapTypes = [];
 	typesLoaded = false;
+	isAdminUser;
 
     ngOnInit() {
      var that = this;
@@ -103,7 +105,9 @@ export class DashboardComponent implements OnInit {
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
 
-  constructor(public dialog: MatDialog, private landmarkService : LandmarkServiceService) {
+  constructor(public dialog: MatDialog, private landmarkService : LandmarkServiceService,
+  	private cookieService: CookieService) {
+  this.isAdminUser = this.cookieService.get("role") == "ADMIN";
   }
 
   hasChild = (_: number, node: ExampleFlatNode) => node.expandable;

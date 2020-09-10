@@ -1,5 +1,5 @@
 <div class="upperMenu">
-<button class="btn" mat-raised-button (click)="addLandmark()">Add new landmark</button>
+<button class="btn" mat-raised-button (click)="addLandmark()" [ngStyle]="{'display':isAdminUser ? 'inline' : 'none'}">Add new landmark</button>
 </div>
 <div>
 <mat-form-field>
@@ -39,9 +39,6 @@
         <div class="example-element-diagram">
           <img  class="photo" src="data:image/jpg;base64,{{element.photo}}">
         </div>
-        <!-- div class="expanded-clmn"> {{element.id}} </div>
-        <div class="expanded-clmn"> {{element.name}} </div>
-        <div class="expanded-clmn">({{element.lat}},{{element.lng}})</div --> 
         <div class="expanded-clmn">
           {{element.description}}
         </div>

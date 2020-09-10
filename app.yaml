@@ -1,0 +1,9 @@
+# [START runtime]
+runtime: nodejs10
+handlers:
+- url: /
+  static_files: dist/angular/index.html
+  upload: dist/angular/index.html
+- url: /
+  static_dir: dist/angular/
+# [END runtime]

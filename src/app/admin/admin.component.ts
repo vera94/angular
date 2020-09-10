@@ -24,7 +24,7 @@ declare var $:any;
 })
 
 export class AdminComponent implements OnInit {
-	isAdminUser = false;
+	isAdminUser;
 	dataSource = new MatTableDataSource<Landmark>();
   columnsToDisplay = ['id', 'name','type', 'lat', 'lng'];
  stars: number[] = [1, 2, 3, 4, 5];
@@ -34,7 +34,7 @@ export class AdminComponent implements OnInit {
   
   constructor(public dialog: MatDialog, private landmarkService : LandmarkServiceService, public changeDetectorRef :ChangeDetectorRef,
   	private cookieService: CookieService) {
-  		this.isAdminUser = this.cookieService.get("role") == "ADMIN";
+  	this.isAdminUser = this.cookieService.get("role") == "ADMIN";
   	}
  	
 

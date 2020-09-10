@@ -4,18 +4,18 @@
 }
 
 .card {
-		margin: 10px;
-        padding : 20px;
-        width: 30%	;
-        float: left;
+  margin: 10px;
+  padding: 20px;
+  width: 30%;
+  float: left;
 }
 
 .iconBtn {
-	margin: 3px;
- 	position:relative;
- 	border-style: none;
- 	background-color: transparent;
- 	outline:none;
+  margin: 3px;
+  position: relative;
+  border-style: none;
+  background-color: transparent;
+  outline: none;
 }
 
 .mat-icon {

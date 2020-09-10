@@ -7,7 +7,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import { UserService, User } from '../user.service';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-declare const google: any;
+declare var google: any;
 
 @Component({
   selector: 'app-map',
@@ -28,6 +28,8 @@ export class MapComponent implements OnInit {
 	initialSelection : Array<ExampleFlatNode>;
 	dataLoaded = false;
   	typesList  = [];
+  	origin;
+  	destination;
   	
 	
   constructor( private route: ActivatedRoute, private userService : UserService, private landmarkService : LandmarkServiceService) {
@@ -260,7 +262,9 @@ AutocompleteDirectionsHandler.prototype.setupSaveRequestListener = function() {
 
   saveButton.addEventListener('click', function() {
 	var promise = me.landmarkService.saveSearch(me.currentRequest);
-	promise.then(function() {});
+	promise.then(function() {
+		window.confirm("Saved request");
+	});
   });
 };
 // Sets a listener on a radio button to change the filter type on Places

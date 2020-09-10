@@ -6,7 +6,7 @@ import { CookieService } from 'ngx-cookie-service';
   providedIn: 'root'
 })
 export class LandmarkServiceService {
-	appUrl = 'http://localhost:8585/travelAssistant';
+	appUrl = window.location.host.includes("local") ? 'http://localhost:8585/travelAssistant' : 'https://iconic-star-241715.ew.r.appspot.com';;
     getAllUrl = this.appUrl + '/landmark/all';
     getDBLandmarksUrl = this.appUrl + '/landmark/dblandmarks';
     addUrl = this.appUrl + '/landmark';
@@ -31,10 +31,10 @@ export class LandmarkServiceService {
 		      observe: 'response'
 		     }).subscribe((response : HttpResponse<Landmark[]>) => {
 		             data.data = response.body;
-		             resolve();
 		             if(!!changeDetectorRef) {
 		             	changeDetectorRef.detectChanges();
 		             }
+		             resolve();
 		            } );
         });
 	}
@@ -219,22 +219,22 @@ export class LandmarkServiceService {
 		return new Promise(function(resolve, reject) {that.http.post(that.saveSearchUrl, requestDto, {
 		    	headers: new HttpHeaders().set('Authorization', that.cookieService.get("jwt"))})
 		    	.subscribe((result: any) =>{
-				    if(result){
-				      resolve(result);
-				    }
-				    else{
-				      reject()
-				    } });
+				    resolve(result);
+				     });
 				    });
 	}
 	
-	getSavedSearches(){
+	getSavedSearches(data, changeDetectorRef : ChangeDetectorRef){
     	var that = this;
   	 	return new Promise(function(resolve, reject) {
 		     that.http.get<RequestDto[]>(that.getSavedSearchesUrl, {
 		      headers: new HttpHeaders({'Content-Type': 'application/json'}).set('Authorization', that.cookieService.get("jwt")),
 		      observe: 'response'
 		     }).subscribe((response : HttpResponse<RequestDto[]>) => {
+		     		 data.data = response.body;
+		     		 if(!!changeDetectorRef) {
+		             	changeDetectorRef.detectChanges();
+		             }
 		             resolve(response.body);
 		             console.log("Asd");
 		            } );

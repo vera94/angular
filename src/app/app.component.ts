@@ -12,8 +12,11 @@ import {Router} from '@angular/router';
 export class AppComponent {
 title = 'angular';
   isLoggedUser = !!this.cookieService.get("email");
+  isAdminUser;
 	constructor(private cookieService: CookieService, public changeDetectorRef :ChangeDetectorRef, 
 		private userService : UserService , private router : Router) {
+		
+  this.isAdminUser = !!this.cookieService.get("role") && this.cookieService.get("role") == "ADMIN";
     setInterval(() => {
       this.isLoggedUser = !!this.cookieService.get("email");
       // require view to be updated

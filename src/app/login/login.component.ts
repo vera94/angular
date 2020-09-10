@@ -56,6 +56,7 @@ export class LoginComponent implements OnInit {
 	submit() {
 		var that = this;
 		  var newUser = this.registerForm.value;
+		  delete newUser.confirmPassword;
 		  var promise = this.userService.signUp(newUser).then(function(){
 		  		that.registerForm.reset();
 		  });
